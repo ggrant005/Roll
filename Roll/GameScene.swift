@@ -9,33 +9,29 @@
 import SpriteKit
 import GameplayKit
 
-class GameScene: SKScene {
+class GameScene: SKScene, SKPhysicsContactDelegate {
   
   var entities = [GKEntity]()
   var graphs = [String : GKGraph]()
 
   private var lastUpdateTime : TimeInterval = 0
-  private var circleNode : SKShapeNode?
+  private var circleNode : SKShapeNode!
   
+  //----------------------------------------------------------------------------
+  //----------------------------------------------------------------------------
   override func sceneDidLoad() {
 
-  self.lastUpdateTime = 0
-      
-  // Create shape node
-  let w = (self.size.width + self.size.height) * 0.03
-  self.circleNode = SKShapeNode.init(circleOfRadius: CGFloat(w))
-      
-    if let circleNode = self.circleNode {
-      circleNode.lineWidth = 2.5
-          
-      //  .run(SKAction.repeatForever(SKAction.rotate(byAngle: CGFloat(Double.pi), duration: 1)))
-      //circleNode.run(SKAction.sequence([SKAction.wait(forDuration: 0.5),
-      //                                  SKAction.fadeOut(withDuration: 0.5),
-      //                                  SKAction.removeFromParent()]))
-      }
+    self.lastUpdateTime = 0
+    
+    // create physics world
+    physicsWorld.gravity = CGVector(dx: 0.0, dy: -5.0)
+    physicsWorld.contactDelegate = self
+    
+    createCircle()
   }
   
-  
+  //----------------------------------------------------------------------------
+  //----------------------------------------------------------------------------
   func touchDown(atPoint pos : CGPoint) {
     if let n = self.circleNode?.copy() as! SKShapeNode? {
       n.position = pos
@@ -44,35 +40,47 @@ class GameScene: SKScene {
     }
   }
   
+  //----------------------------------------------------------------------------
+  //----------------------------------------------------------------------------
   func touchMoved(toPoint pos : CGPoint) {
-    self.removeAllChildren()
+//    self.removeAllChildren()
     if let n = self.circleNode?.copy() as! SKShapeNode? {
       n.position = pos
       self.addChild(n)
     }
   }
   
+  //----------------------------------------------------------------------------
+  //----------------------------------------------------------------------------
   func touchUp(atPoint pos : CGPoint) {
-    self.removeAllChildren()
   }
   
+  //----------------------------------------------------------------------------
+  //----------------------------------------------------------------------------
   override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
     for t in touches { self.touchDown(atPoint: t.location(in: self)) }
   }
   
+  //----------------------------------------------------------------------------
+  //----------------------------------------------------------------------------
   override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
     for t in touches { self.touchMoved(toPoint: t.location(in: self)) }
   }
   
+  //----------------------------------------------------------------------------
+  //----------------------------------------------------------------------------
   override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
     for t in touches { self.touchUp(atPoint: t.location(in: self)) }
   }
   
+  //----------------------------------------------------------------------------
+  //----------------------------------------------------------------------------
   override func touchesCancelled(_ touches: Set<UITouch>, with event: UIEvent?) {
     for t in touches { self.touchUp(atPoint: t.location(in: self)) }
   }
   
-  
+  //----------------------------------------------------------------------------
+  //----------------------------------------------------------------------------
   override func update(_ currentTime: TimeInterval) {
     // Called before each frame is rendered
       
@@ -90,5 +98,19 @@ class GameScene: SKScene {
     }
       
     self.lastUpdateTime = currentTime
+  }
+  
+  //----------------------------------------------------------------------------
+  //----------------------------------------------------------------------------
+  func createCircle() {
+    let w = (self.size.width + self.size.height) * 0.03
+    self.circleNode = SKShapeNode.init(circleOfRadius: CGFloat(w))
+    if let circleNode = self.circleNode {
+      circleNode.lineWidth = 2.5
+      circleNode.physicsBody = SKPhysicsBody(circleOfRadius: CGFloat(w))
+    }
+    
+    circleNode.physicsBody?.isDynamic = true
+    circleNode.physicsBody?.collisionBitMask = 0
   }
 }
