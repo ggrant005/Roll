@@ -35,7 +35,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
   func touchDown(atPoint pos : CGPoint) {
     if let n = self.circleNode?.copy() as! SKShapeNode? {
       n.position = pos
-//      n.strokeColor = SKColor.green
       self.addChild(n)
     }
   }
@@ -43,7 +42,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
   //----------------------------------------------------------------------------
   //----------------------------------------------------------------------------
   func touchMoved(toPoint pos : CGPoint) {
-//    self.removeAllChildren()
+    self.removeAllChildren()
     if let n = self.circleNode?.copy() as! SKShapeNode? {
       n.position = pos
       self.addChild(n)
