@@ -15,7 +15,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
   var graphs = [String : GKGraph]()
 
   private var lastUpdateTime : TimeInterval = 0
+  
   private var circleNode : SKShapeNode!
+  private var lineNode : SKShapeNode!
   
   //----------------------------------------------------------------------------
   //----------------------------------------------------------------------------
@@ -28,12 +30,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     physicsWorld.contactDelegate = self
     
     createCircle()
+    createLine()
   }
   
   //----------------------------------------------------------------------------
   //----------------------------------------------------------------------------
   func touchDown(atPoint pos : CGPoint) {
-    self.removeAllChildren()
+    self.childNode(withName: "circle")?.removeFromParent()
     if let n = self.circleNode?.copy() as! SKShapeNode? {
       n.position = pos
       self.addChild(n)
@@ -43,7 +46,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
   //----------------------------------------------------------------------------
   //----------------------------------------------------------------------------
   func touchMoved(toPoint pos : CGPoint) {
-    self.removeAllChildren()
+    self.childNode(withName: "circle")?.removeFromParent()
     if let n = self.circleNode?.copy() as! SKShapeNode? {
       n.position = pos
       self.addChild(n)
@@ -106,11 +109,36 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     let w = (self.size.width + self.size.height) * 0.03
     self.circleNode = SKShapeNode.init(circleOfRadius: CGFloat(w))
     if let circleNode = self.circleNode {
+      
+      circleNode.name = "circle"
       circleNode.lineWidth = 2.5
       circleNode.physicsBody = SKPhysicsBody(circleOfRadius: CGFloat(w))
     }
     
     circleNode.physicsBody?.isDynamic = true
     circleNode.physicsBody?.collisionBitMask = 0
+  }
+  
+  //----------------------------------------------------------------------------
+  //----------------------------------------------------------------------------
+  func createLine() {
+    var points = [CGPoint(x: -100, y: 100),
+                  CGPoint(x: 0, y: 0),
+                  CGPoint(x: 100, y: -100)]
+    self.lineNode = SKShapeNode.init(points: &points, count: points.count)
+    if let lineNode = self.lineNode {
+      let path = CGMutablePath()
+      path.addLines(between: points)
+      path.closeSubpath()
+      
+      lineNode.name = "line"
+      lineNode.lineWidth = 2.5
+      lineNode.physicsBody = SKPhysicsBody(polygonFrom: path)
+    }
+
+    lineNode.physicsBody?.isDynamic = false
+    lineNode.physicsBody?.collisionBitMask = 0
+    
+    self.addChild(self.lineNode)
   }
 }
