@@ -33,6 +33,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
   //----------------------------------------------------------------------------
   //----------------------------------------------------------------------------
   func touchDown(atPoint pos : CGPoint) {
+    self.removeAllChildren()
     if let n = self.circleNode?.copy() as! SKShapeNode? {
       n.position = pos
       self.addChild(n)
