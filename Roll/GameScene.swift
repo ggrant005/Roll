@@ -16,67 +16,70 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
 
   private var lastUpdateTime : TimeInterval = 0
   
-  private var circleNode : SKShapeNode!
-  private var lineNode : SKShapeNode!
+  private var ball : SKShapeNode!
+  private var path : SKShapeNode!
+  
+  private var pathPoints : [CGPoint] = []
   
   //----------------------------------------------------------------------------
   //----------------------------------------------------------------------------
   override func sceneDidLoad() {
 
-    self.lastUpdateTime = 0
+    lastUpdateTime = 0
     
     // create physics world
     physicsWorld.gravity = CGVector(dx: 0.0, dy: -5.0)
     physicsWorld.contactDelegate = self
     
     createSceneContents()
-    createCircle()
-    createLine()
+    createBallWithoutPhysics()
   }
   
   //----------------------------------------------------------------------------
   //----------------------------------------------------------------------------
   func touchDown(atPoint pos : CGPoint) {
-    self.childNode(withName: "circle")?.removeFromParent()
-    self.circleNode.position = pos
-    self.addChild(self.circleNode)
+    pathPoints = []
+    createPath(atPoint: pos)
   }
   
   //----------------------------------------------------------------------------
   //----------------------------------------------------------------------------
   func touchMoved(toPoint pos : CGPoint) {
-    self.childNode(withName: "circle")?.removeFromParent()
-    self.circleNode.position = pos
-    self.addChild(self.circleNode)
+    createPath(atPoint: pos)
   }
   
   //----------------------------------------------------------------------------
   //----------------------------------------------------------------------------
   func touchUp(atPoint pos : CGPoint) {
+    createPath(atPoint: pos)
+    
+    // release ball
+    ball?.removeFromParent()
+    createBallWithPhysics()
   }
   
   //----------------------------------------------------------------------------
   //----------------------------------------------------------------------------
   override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-    for t in touches { self.touchDown(atPoint: t.location(in: self)) }
+    for t in touches { touchDown(atPoint: t.location(in: self)) }
   }
   
   //----------------------------------------------------------------------------
   //----------------------------------------------------------------------------
   override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
-    for t in touches { self.touchMoved(toPoint: t.location(in: self)) }
+    for t in touches { touchMoved(toPoint: t.location(in: self)) }
   }
   
   //----------------------------------------------------------------------------
   //----------------------------------------------------------------------------
   override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
-    for t in touches { self.touchUp(atPoint: t.location(in: self)) }
+    for t in touches { touchUp(atPoint: t.location(in: self)) }
   }
   
   //----------------------------------------------------------------------------
   //----------------------------------------------------------------------------
   override func touchesCancelled(_ touches: Set<UITouch>, with event: UIEvent?) {
-    for t in touches { self.touchUp(atPoint: t.location(in: self)) }
+    for t in touches { touchUp(atPoint: t.location(in: self)) }
   }
   
   //----------------------------------------------------------------------------
@@ -85,58 +88,69 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     // Called before each frame is rendered
       
     // Initialize _lastUpdateTime if it has not already been
-    if (self.lastUpdateTime == 0) {
-      self.lastUpdateTime = currentTime
+    if (lastUpdateTime == 0) {
+      lastUpdateTime = currentTime
     }
       
     // Calculate time since last update
-    let dt = currentTime - self.lastUpdateTime
+    let dt = currentTime - lastUpdateTime
       
     // Update entities
-    for entity in self.entities {
+    for entity in entities {
       entity.update(deltaTime: dt)
     }
-      
-    self.lastUpdateTime = currentTime
+    
+    lastUpdateTime = currentTime
   }
   
   //----------------------------------------------------------------------------
   //----------------------------------------------------------------------------
   func createSceneContents() {
-    self.backgroundColor = .black
-    self.scaleMode = .aspectFit
-    self.physicsBody = SKPhysicsBody(edgeLoopFrom: self.frame)
+    backgroundColor = .black
+    scaleMode = .aspectFit
+    physicsBody = SKPhysicsBody(edgeLoopFrom: frame)
   }
   
   //----------------------------------------------------------------------------
   //----------------------------------------------------------------------------
-  func createCircle() {
-    let w = (self.size.width + self.size.height) * 0.01
-    self.circleNode = SKShapeNode.init(circleOfRadius: CGFloat(w))
-    self.circleNode.name = "circle"
-    self.circleNode.lineWidth = 2.5
-    self.circleNode.physicsBody = SKPhysicsBody(circleOfRadius: CGFloat(w))
-    self.circleNode.physicsBody?.restitution = 0.75
-    self.circleNode.physicsBody?.isDynamic = true
-    self.circleNode.physicsBody?.collisionBitMask = 0b0001
+  func createBallWithPhysics() {
+    let w = (size.width + size.height) * 0.01
+    ball = SKShapeNode.init(circleOfRadius: CGFloat(w))
+    ball.name = "circle"
+    ball.lineWidth = 2.5
+    ball.position = CGPoint(x: -200, y: 300)
+    ball.physicsBody = SKPhysicsBody(circleOfRadius: CGFloat(w))
+    ball.physicsBody?.restitution = 0.75
+    ball.physicsBody?.isDynamic = true
+    ball.physicsBody?.collisionBitMask = 0b0001
+    addChild(ball)
   }
   
   //----------------------------------------------------------------------------
   //----------------------------------------------------------------------------
-  func createLine() {
-    var points = [CGPoint(x: -200, y: 200),
-                  CGPoint(x: -100, y: 25),
-                  CGPoint(x: 100, y: 25),
-                  CGPoint(x: 200, y: 200)]
-    
-    self.lineNode = SKShapeNode.init(splinePoints: &points, count: points.count)
-    self.lineNode.name = "line"
-    self.lineNode.lineWidth = 2.5
-    self.lineNode.physicsBody = SKPhysicsBody(edgeChainFrom: lineNode.path!)
-    self.lineNode.physicsBody?.restitution = 0.75
-    self.lineNode.physicsBody?.isDynamic = false
-    self.lineNode.physicsBody?.categoryBitMask = 0b0001
-    
-    self.addChild(self.lineNode)
+  func createBallWithoutPhysics() {
+    let w = (size.width + size.height) * 0.01
+    ball = SKShapeNode.init(circleOfRadius: CGFloat(w))
+    ball.name = "circle"
+    ball.lineWidth = 2.5
+    ball.position = CGPoint(x: -200, y: 300)
+    addChild(ball)
+  }
+  
+  //----------------------------------------------------------------------------
+  //----------------------------------------------------------------------------
+  func createPath(atPoint pos : CGPoint) {
+    path?.removeFromParent()
+    pathPoints.append(pos)
+    path = SKShapeNode.init(
+      splinePoints: &pathPoints,
+      count: pathPoints.count)
+    path.physicsBody = SKPhysicsBody(edgeChainFrom: path.path!)
+    path.name = "path"
+    path.lineWidth = 2.5
+    path.physicsBody?.restitution = 0.75
+    path.physicsBody?.isDynamic = false
+    path.physicsBody?.categoryBitMask = 0b0001
+    addChild(path)
   }
 }
