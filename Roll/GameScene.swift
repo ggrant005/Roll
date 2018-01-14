@@ -32,7 +32,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     physicsWorld.contactDelegate = self
     
     createSceneContents()
-    createBallWithoutPhysics()
+    createBall()
   }
   
   //----------------------------------------------------------------------------
@@ -52,10 +52,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
   //----------------------------------------------------------------------------
   func touchUp(atPoint pos : CGPoint) {
     createPath(atPoint: pos)
-    
-    // release ball
-    ball?.removeFromParent()
-    createBallWithPhysics()
+    ball?.physicsBody?.isDynamic = true // release ball
   }
   
   //----------------------------------------------------------------------------
@@ -113,27 +110,16 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
   
   //----------------------------------------------------------------------------
   //----------------------------------------------------------------------------
-  func createBallWithPhysics() {
+  func createBall() {
     let w = (size.width + size.height) * 0.01
     ball = SKShapeNode.init(circleOfRadius: CGFloat(w))
-    ball.name = "circle"
+    ball.name = "ball"
     ball.lineWidth = 2.5
     ball.position = CGPoint(x: -200, y: 300)
     ball.physicsBody = SKPhysicsBody(circleOfRadius: CGFloat(w))
     ball.physicsBody?.restitution = 0.75
-    ball.physicsBody?.isDynamic = true
+    ball.physicsBody?.isDynamic = false
     ball.physicsBody?.collisionBitMask = 0b0001
-    addChild(ball)
-  }
-  
-  //----------------------------------------------------------------------------
-  //----------------------------------------------------------------------------
-  func createBallWithoutPhysics() {
-    let w = (size.width + size.height) * 0.01
-    ball = SKShapeNode.init(circleOfRadius: CGFloat(w))
-    ball.name = "circle"
-    ball.lineWidth = 2.5
-    ball.position = CGPoint(x: -200, y: 300)
     addChild(ball)
   }
   
@@ -147,8 +133,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
       count: pathPoints.count)
     path.physicsBody = SKPhysicsBody(edgeChainFrom: path.path!)
     path.name = "path"
-    path.lineWidth = 2.5
-    path.physicsBody?.restitution = 0.75
+    path.lineWidth = 5
     path.physicsBody?.isDynamic = false
     path.physicsBody?.categoryBitMask = 0b0001
     addChild(path)
