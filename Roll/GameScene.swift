@@ -14,17 +14,21 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
   var entities = [GKEntity]()
   var graphs = [String : GKGraph]()
 
-  private var lastUpdateTime : TimeInterval = 0
+  var lastUpdateTime : TimeInterval = 0
   
-  private var ball : SKShapeNode!
-  private var path : SKShapeNode!
+  var ball : SKShapeNode!
+  var path : SKShapeNode!
   
-  private var pathPoints : [CGPoint] = []
+  var pathPoints : [CGPoint] = []
+  
+  var doubleTapped = false
+  
+  let tapRec2 = UITapGestureRecognizer()
   
   //----------------------------------------------------------------------------
   //----------------------------------------------------------------------------
   override func sceneDidLoad() {
-
+    
     lastUpdateTime = 0
     
     // create physics world
@@ -33,6 +37,14 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     createSceneContents()
     createBall()
+  }
+  
+  //----------------------------------------------------------------------------
+  //----------------------------------------------------------------------------
+  override func didMove(to view: SKView) {
+    tapRec2.addTarget(self, action:#selector(GameScene.doubleTapped(_:) ))
+    tapRec2.numberOfTapsRequired = 2
+    self.view!.addGestureRecognizer(tapRec2)
   }
   
   //----------------------------------------------------------------------------
@@ -51,8 +63,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
   //----------------------------------------------------------------------------
   //----------------------------------------------------------------------------
   func touchUp(atPoint pos : CGPoint) {
-    createPath(atPoint: pos)
-    ball?.physicsBody?.isDynamic = true // release ball
+    if doubleTapped {
+      doubleTapped = false
+    }
+    else {
+      createPath(atPoint: pos)
+      ball?.physicsBody?.isDynamic = true // release ball
+    }
   }
   
   //----------------------------------------------------------------------------
@@ -102,6 +119,19 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
   
   //----------------------------------------------------------------------------
   //----------------------------------------------------------------------------
+  @objc func doubleTapped(_ sender:UITapGestureRecognizer) {
+    resetScene()
+  }
+  
+  //----------------------------------------------------------------------------
+  //----------------------------------------------------------------------------
+  func resetScene() {
+    createBall()
+    doubleTapped = true
+  }
+  
+  //----------------------------------------------------------------------------
+  //----------------------------------------------------------------------------
   func createSceneContents() {
     backgroundColor = .black
     scaleMode = .aspectFit
@@ -111,6 +141,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
   //----------------------------------------------------------------------------
   //----------------------------------------------------------------------------
   func createBall() {
+    ball?.removeFromParent()
     let w = (size.width + size.height) * 0.01
     ball = SKShapeNode.init(circleOfRadius: CGFloat(w))
     ball.name = "ball"
