@@ -38,20 +38,16 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
   //----------------------------------------------------------------------------
   func touchDown(atPoint pos : CGPoint) {
     self.childNode(withName: "circle")?.removeFromParent()
-    if let n = self.circleNode?.copy() as! SKShapeNode? {
-      n.position = pos
-      self.addChild(n)
-    }
+    self.circleNode.position = pos
+    self.addChild(self.circleNode)
   }
   
   //----------------------------------------------------------------------------
   //----------------------------------------------------------------------------
   func touchMoved(toPoint pos : CGPoint) {
     self.childNode(withName: "circle")?.removeFromParent()
-    if let n = self.circleNode?.copy() as! SKShapeNode? {
-      n.position = pos
-      self.addChild(n)
-    }
+    self.circleNode.position = pos
+    self.addChild(self.circleNode)
   }
   
   //----------------------------------------------------------------------------
@@ -117,16 +113,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
   func createCircle() {
     let w = (self.size.width + self.size.height) * 0.01
     self.circleNode = SKShapeNode.init(circleOfRadius: CGFloat(w))
-    
-    if let circleNode = self.circleNode {
-      
-      circleNode.name = "circle"
-      circleNode.lineWidth = 2.5
-      circleNode.physicsBody = SKPhysicsBody(circleOfRadius: CGFloat(w))
-      circleNode.physicsBody?.restitution = 0.75
-      circleNode.physicsBody?.isDynamic = true
-      circleNode.physicsBody?.collisionBitMask = 0b0001
-    }
+    self.circleNode.name = "circle"
+    self.circleNode.lineWidth = 2.5
+    self.circleNode.physicsBody = SKPhysicsBody(circleOfRadius: CGFloat(w))
+    self.circleNode.physicsBody?.restitution = 0.75
+    self.circleNode.physicsBody?.isDynamic = true
+    self.circleNode.physicsBody?.collisionBitMask = 0b0001
   }
   
   //----------------------------------------------------------------------------
@@ -136,18 +128,15 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                   CGPoint(x: -100, y: 25),
                   CGPoint(x: 100, y: 25),
                   CGPoint(x: 200, y: 200)]
-    self.lineNode = SKShapeNode.init(splinePoints: &points, count: points.count)
     
-    if let lineNode = self.lineNode {
-      
-      lineNode.name = "line"
-      lineNode.lineWidth = 2.5
-      lineNode.physicsBody = SKPhysicsBody(edgeChainFrom: lineNode.path!)
-      lineNode.physicsBody?.restitution = 0.75
-      lineNode.physicsBody?.isDynamic = false
-      lineNode.physicsBody?.categoryBitMask = 0b0001
-      
-      self.addChild(lineNode)
-    }
+    self.lineNode = SKShapeNode.init(splinePoints: &points, count: points.count)
+    self.lineNode.name = "line"
+    self.lineNode.lineWidth = 2.5
+    self.lineNode.physicsBody = SKPhysicsBody(edgeChainFrom: lineNode.path!)
+    self.lineNode.physicsBody?.restitution = 0.75
+    self.lineNode.physicsBody?.isDynamic = false
+    self.lineNode.physicsBody?.categoryBitMask = 0b0001
+    
+    self.addChild(self.lineNode)
   }
 }
