@@ -18,6 +18,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
   
   var ball : SKShapeNode!
   var path : SKShapeNode!
+  var block : SKShapeNode!
+  var goal : SKShapeNode!
   
   var pathPoints : [CGPoint] = []
   
@@ -37,6 +39,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     createSceneContents()
     createBall()
+    createBlock()
+    createGoal()
   }
   
   //----------------------------------------------------------------------------
@@ -146,7 +150,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     ball = SKShapeNode.init(circleOfRadius: CGFloat(w))
     ball.name = "ball"
     ball.lineWidth = 2.5
-    ball.position = CGPoint(x: -200, y: 300)
+    ball.position = CGPoint(x: 0, y: 300)
     ball.physicsBody = SKPhysicsBody(circleOfRadius: CGFloat(w))
     ball.physicsBody?.restitution = 0.75
     ball.physicsBody?.isDynamic = false
@@ -159,14 +163,45 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
   func createPath(atPoint pos : CGPoint) {
     path?.removeFromParent()
     pathPoints.append(pos)
-    path = SKShapeNode.init(
-      splinePoints: &pathPoints,
-      count: pathPoints.count)
+    path = SKShapeNode.init(splinePoints: &pathPoints, count: pathPoints.count)
     path.physicsBody = SKPhysicsBody(edgeChainFrom: path.path!)
     path.name = "path"
-    path.lineWidth = 5
+    path.lineWidth = 2.5
     path.physicsBody?.isDynamic = false
     path.physicsBody?.categoryBitMask = 0b0001
     addChild(path)
+  }
+  
+  //----------------------------------------------------------------------------
+  //----------------------------------------------------------------------------
+  func createBlock() {
+    block?.removeFromParent()
+    let w = (size.width + size.height) * 0.01
+    let blockRect = CGRect(x: -w, y: 0, width: 2 * w, height: 4 * w)
+    block = SKShapeNode.init(rect: blockRect)
+    block.name = "block"
+    block.lineWidth = 2.5
+    block.physicsBody = SKPhysicsBody(
+      rectangleOf: blockRect.size,
+      center: CGPoint(x: 0, y: 2 * w))
+    block.physicsBody?.isDynamic = false
+    block.physicsBody?.collisionBitMask = 0b0001
+    addChild(block)
+  }
+  
+  //----------------------------------------------------------------------------
+  //----------------------------------------------------------------------------
+  func createGoal() {
+    goal?.removeFromParent()
+    let w = (size.width + size.height) * 0.01
+    goal = SKShapeNode.init(circleOfRadius: CGFloat(w/2))
+    goal.name = "goal"
+    goal.strokeColor = UIColor(red: 1, green: 0, blue: 0, alpha: 1)
+    goal.lineWidth = 2.5
+    goal.position = CGPoint(x: 100, y: -350)
+    goal.physicsBody = SKPhysicsBody(circleOfRadius: CGFloat(w/2))
+    goal.physicsBody?.isDynamic = false
+    goal.physicsBody?.collisionBitMask = 0b0001
+    addChild(goal)
   }
 }
