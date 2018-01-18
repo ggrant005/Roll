@@ -188,28 +188,30 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     block.physicsBody?.collisionBitMask = 0b0001
     addChild(block)
     
-//    loopForever(
-//      block: block,
-//      duration: 5)
+    loopForever(
+      block: block,
+      translation: 700,
+      duration: 5)
   }
   
   //----------------------------------------------------------------------------
   //----------------------------------------------------------------------------
   func loopForever(
     block: SKShapeNode,
+    translation: CGFloat,
     duration: TimeInterval) {
     
     let moveDown = SKAction.moveBy(
       x: 0,
-      y: -400,
+      y: -translation / 2,
       duration: duration / 2)
     
     let moveUp = SKAction.moveBy(
       x: 0,
-      y: 400,
-      duration: duration / 2)
+      y: translation,
+      duration: duration)
     
-    let moveLoop = SKAction.sequence([moveDown, moveUp])
+    let moveLoop = SKAction.sequence([moveDown, moveUp, moveDown])
     let moveForever = SKAction.repeatForever(moveLoop)
     
     block.run(moveForever)
