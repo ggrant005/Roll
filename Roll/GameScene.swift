@@ -150,7 +150,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     ball = SKShapeNode.init(circleOfRadius: CGFloat(w))
     ball.name = "ball"
     ball.lineWidth = 2.5
-    ball.position = CGPoint(x: 0, y: 300)
+    ball.position = CGPoint(x: -200, y: 300)
     ball.physicsBody = SKPhysicsBody(circleOfRadius: CGFloat(w))
     ball.physicsBody?.restitution = 0.75
     ball.physicsBody?.isDynamic = false
@@ -187,6 +187,32 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     block.physicsBody?.isDynamic = false
     block.physicsBody?.collisionBitMask = 0b0001
     addChild(block)
+    
+    loopForever(
+      block: block,
+      duration: 5)
+  }
+  
+  //----------------------------------------------------------------------------
+  //----------------------------------------------------------------------------
+  func loopForever(
+    block: SKShapeNode,
+    duration: TimeInterval) {
+    
+    let moveDown = SKAction.moveBy(
+      x: 0,
+      y: -400,
+      duration: duration / 2)
+    
+    let moveUp = SKAction.moveBy(
+      x: 0,
+      y: 400,
+      duration: duration / 2)
+    
+    let moveLoop = SKAction.sequence([moveDown, moveUp])
+    let moveForever = SKAction.repeatForever(moveLoop)
+    
+    block.run(moveForever)
   }
   
   //----------------------------------------------------------------------------
