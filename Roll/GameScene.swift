@@ -123,6 +123,19 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
   
   //----------------------------------------------------------------------------
   //----------------------------------------------------------------------------
+  func didBegin(_ contact: SKPhysicsContact) {
+    if contact.bodyA.node == ball || contact.bodyB.node == goal {
+      print("CONTACT")
+      let sound = SKAction.playSoundFileNamed(
+        "explosion.wav",
+        waitForCompletion: false)
+      
+      run(sound)
+    }
+  }
+  
+  //----------------------------------------------------------------------------
+  //----------------------------------------------------------------------------
   @objc func doubleTapped(_ sender:UITapGestureRecognizer) {
     resetScene()
   }
@@ -164,9 +177,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     path?.removeFromParent()
     pathPoints.append(pos)
     path = SKShapeNode.init(splinePoints: &pathPoints, count: pathPoints.count)
-    path.physicsBody = SKPhysicsBody(edgeChainFrom: path.path!)
     path.name = "path"
     path.lineWidth = 2.5
+    path.physicsBody = SKPhysicsBody(edgeChainFrom: path.path!)
     path.physicsBody?.isDynamic = false
     path.physicsBody?.categoryBitMask = 0b0001
     addChild(path)
