@@ -177,20 +177,20 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
   func createBlock() {
     block?.removeFromParent()
     let w = (size.width + size.height) * 0.01
-    let blockRect = CGRect(x: -w, y: 0, width: 2 * w, height: 4 * w)
+    let blockRect = CGRect(x: -w, y: -2 * w, width: 2 * w, height: 4 * w)
     block = SKShapeNode.init(rect: blockRect)
     block.name = "block"
     block.lineWidth = 2.5
     block.physicsBody = SKPhysicsBody(
       rectangleOf: blockRect.size,
-      center: CGPoint(x: 0, y: 2 * w))
+      center: CGPoint(x: 0, y: 0))
     block.physicsBody?.isDynamic = false
     block.physicsBody?.collisionBitMask = 0b0001
     addChild(block)
     
-    loopForever(
-      block: block,
-      duration: 5)
+//    loopForever(
+//      block: block,
+//      duration: 5)
   }
   
   //----------------------------------------------------------------------------
