@@ -124,13 +124,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
   //----------------------------------------------------------------------------
   //----------------------------------------------------------------------------
   func didBegin(_ contact: SKPhysicsContact) {
-    if contact.bodyA.node == ball || contact.bodyB.node == goal {
+    if contact.bodyA.node == goal || contact.bodyB.node == goal {
       print("CONTACT")
-      let sound = SKAction.playSoundFileNamed(
-        "explosion.wav",
-        waitForCompletion: false)
+//      let sound = SKAction.playSoundFileNamed(
+//        "explosion.wav",
+//        waitForCompletion: false)
       
-      run(sound)
+//      run(sound)
     }
   }
   
@@ -167,7 +167,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     ball.physicsBody = SKPhysicsBody(circleOfRadius: CGFloat(w))
     ball.physicsBody?.restitution = 0.75
     ball.physicsBody?.isDynamic = false
-    ball.physicsBody?.collisionBitMask = 0b0001
+    ball.physicsBody?.contactTestBitMask = 0b0001
     addChild(ball)
   }
   
@@ -181,7 +181,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     path.lineWidth = 2.5
     path.physicsBody = SKPhysicsBody(edgeChainFrom: path.path!)
     path.physicsBody?.isDynamic = false
-    path.physicsBody?.categoryBitMask = 0b0001
+    path.physicsBody?.contactTestBitMask = 0b0001
     addChild(path)
   }
   
@@ -198,7 +198,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
       rectangleOf: blockRect.size,
       center: CGPoint(x: 0, y: 0))
     block.physicsBody?.isDynamic = false
-    block.physicsBody?.collisionBitMask = 0b0001
+    block.physicsBody?.contactTestBitMask = 0b0001
     addChild(block)
     
     loopForever(
@@ -242,7 +242,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     goal.position = CGPoint(x: 100, y: -350)
     goal.physicsBody = SKPhysicsBody(circleOfRadius: CGFloat(w/2))
     goal.physicsBody?.isDynamic = false
-    goal.physicsBody?.collisionBitMask = 0b0001
+    goal.physicsBody?.contactTestBitMask = 0b0001
     addChild(goal)
   }
 }
