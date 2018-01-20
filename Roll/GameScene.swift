@@ -46,6 +46,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
   //----------------------------------------------------------------------------
   //----------------------------------------------------------------------------
   override func didMove(to view: SKView) {
+    self.view!.isMultipleTouchEnabled = false
     tapRec2.addTarget(self, action:#selector(GameScene.doubleTapped(_:) ))
     tapRec2.numberOfTapsRequired = 2
     self.view!.addGestureRecognizer(tapRec2)
