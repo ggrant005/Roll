@@ -125,12 +125,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
   //----------------------------------------------------------------------------
   func didBegin(_ contact: SKPhysicsContact) {
     if contact.bodyA.node == goal || contact.bodyB.node == goal {
-      print("CONTACT")
-//      let sound = SKAction.playSoundFileNamed(
-//        "explosion.wav",
-//        waitForCompletion: false)
-      
-//      run(sound)
+      goal.fillColor = .red
     }
   }
   
@@ -145,6 +140,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
   func resetScene() {
     createBall()
     doubleTapped = true
+    goal.fillColor = .black
   }
   
   //----------------------------------------------------------------------------
@@ -201,7 +197,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     block.physicsBody?.contactTestBitMask = 0b0001
     addChild(block)
     
-    loopForever(
+    loopBlockMovement(
       block: block,
       translation: 700,
       duration: 5)
@@ -209,7 +205,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
   
   //----------------------------------------------------------------------------
   //----------------------------------------------------------------------------
-  func loopForever(
+  func loopBlockMovement(
     block: SKShapeNode,
     translation: CGFloat,
     duration: TimeInterval) {
@@ -237,7 +233,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     let w = (size.width + size.height) * 0.01
     goal = SKShapeNode.init(circleOfRadius: CGFloat(w/2))
     goal.name = "goal"
-    goal.strokeColor = UIColor(red: 1, green: 0, blue: 0, alpha: 1)
+    goal.strokeColor = .red
     goal.lineWidth = 2.5
     goal.position = CGPoint(x: 100, y: -350)
     goal.physicsBody = SKPhysicsBody(circleOfRadius: CGFloat(w/2))
