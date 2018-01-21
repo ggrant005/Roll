@@ -9,6 +9,12 @@
 import SpriteKit
 import GameplayKit
 
+enum GameState {
+  case new
+  case playing
+  case goal
+}
+
 class GameScene: SKScene, SKPhysicsContactDelegate {
   
   var entities = [GKEntity]()
@@ -28,6 +34,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
   let tapRec2 = UITapGestureRecognizer()
   
   var levelLabel: SKLabelNode!
+  
+  var gameState = GameState.new
   
   var level: Int = 1 {
     didSet {
@@ -64,6 +72,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
   //----------------------------------------------------------------------------
   //----------------------------------------------------------------------------
   func touchDown(atPoint pos : CGPoint) {
+    gameState = .playing
     pathPoints = []
     createPath(atPoint: pos)
   }
@@ -134,9 +143,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
   //----------------------------------------------------------------------------
   //----------------------------------------------------------------------------
   func didBegin(_ contact: SKPhysicsContact) {
-    if contact.bodyA.node == goal || contact.bodyB.node == goal {
-      goal.fillColor = .red
-      level += 1
+    if gameState == .playing {
+      if contact.bodyA.node == goal || contact.bodyB.node == goal {
+        gameState = .goal
+        goal.fillColor = .red
+        level += 1
+      }
     }
   }
   
@@ -149,6 +161,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
   //----------------------------------------------------------------------------
   //----------------------------------------------------------------------------
   func resetScene() {
+    gameState = .new
     createBall()
     doubleTapped = true
     goal.fillColor = .black
