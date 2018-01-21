@@ -147,7 +147,15 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
       if contact.bodyA.node == goal || contact.bodyB.node == goal {
         gameState = .goal
         goal.fillColor = .red
-        level += 1
+        
+        // next level
+        DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(1), execute: {
+          self.level += 1
+          self.gameState = .new
+          self.createBall()
+          self.goal.fillColor = .black
+          self.path?.removeFromParent()
+        })
       }
     }
   }
