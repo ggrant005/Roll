@@ -27,6 +27,14 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
   
   let tapRec2 = UITapGestureRecognizer()
   
+  var levelLabel: SKLabelNode!
+  
+  var level: Int = 1 {
+    didSet {
+      levelLabel.text = "\(level)"
+    }
+  }
+  
   //----------------------------------------------------------------------------
   //----------------------------------------------------------------------------
   override func sceneDidLoad() {
@@ -38,6 +46,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     physicsWorld.contactDelegate = self
     
     createSceneContents()
+    createLevelLabel()
     createBall()
     createBlock()
     createGoal()
@@ -127,6 +136,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
   func didBegin(_ contact: SKPhysicsContact) {
     if contact.bodyA.node == goal || contact.bodyB.node == goal {
       goal.fillColor = .red
+      level += 1
     }
   }
   
@@ -142,6 +152,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     createBall()
     doubleTapped = true
     goal.fillColor = .black
+    level = 1
   }
   
   //----------------------------------------------------------------------------
@@ -150,6 +161,17 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     backgroundColor = .black
     scaleMode = .aspectFit
     physicsBody = SKPhysicsBody(edgeLoopFrom: frame)
+  }
+  
+  //----------------------------------------------------------------------------
+  //----------------------------------------------------------------------------
+  func createLevelLabel() {
+    levelLabel = SKLabelNode(fontNamed: "Courier")
+    levelLabel.text = "\(level)"
+    levelLabel.horizontalAlignmentMode = .right
+    levelLabel.position = CGPoint(x: size.width * 0.37, y: size.height * 0.46)
+    print("\(size)")
+    addChild(levelLabel)
   }
   
   //----------------------------------------------------------------------------
