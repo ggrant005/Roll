@@ -10,36 +10,37 @@ import SpriteKit
 import GameplayKit
 
 enum GameState {
-  case new
-  case playing
-  case goal
+  case mNew
+  case mPlaying
+  case mGoal
 }
 
 class GameScene: SKScene, SKPhysicsContactDelegate {
   
-  var entities = [GKEntity]()
-  var graphs = [String : GKGraph]()
-
-  var lastUpdateTime : TimeInterval = 0
+  var mEntities = [GKEntity]()
+  var mGraphs = [String : GKGraph]()
   
-  var ball : SKShapeNode!
-  var path : SKShapeNode!
-  var block : SKShapeNode!
-  var goal : SKShapeNode!
+  var mLastUpdateTime : TimeInterval = 0
   
-  var pathPoints : [CGPoint] = []
+  var mBall : SKShapeNode!
+  var mPath : SKShapeNode!
+  var mBlock : SKShapeNode!
+  var mGoal : SKShapeNode!
   
-  var doubleTapped = false
+  var mPathPoints : [CGPoint] = []
   
-  let tapRec2 = UITapGestureRecognizer()
+  var mDoubleTapped = false
   
-  var levelLabel: SKLabelNode!
+  let mTapRec2 = UITapGestureRecognizer()
+  let mTapRec3 = UITapGestureRecognizer()
   
-  var gameState = GameState.new
+  var mLevelLabel: SKLabelNode!
   
-  var level: Int = 1 {
+  var mGameState = GameState.mNew
+  
+  var mLevel: Int = 1 {
     didSet {
-      levelLabel.text = "\(level)"
+      mLevelLabel.text = "\(mLevel)"
     }
   }
   
@@ -47,7 +48,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
   //----------------------------------------------------------------------------
   override func sceneDidLoad() {
     
-    lastUpdateTime = 0
+    mLastUpdateTime = 0
     
     // create physics world
     physicsWorld.gravity = CGVector(dx: 0.0, dy: -5.0)
@@ -55,25 +56,28 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     createSceneContents()
     createLevelLabel()
-    createBall()
-    createBlock()
-    createGoal()
+    createGame()
   }
   
   //----------------------------------------------------------------------------
   //----------------------------------------------------------------------------
   override func didMove(to view: SKView) {
     self.view!.isMultipleTouchEnabled = false
-    tapRec2.addTarget(self, action:#selector(GameScene.doubleTapped(_:) ))
-    tapRec2.numberOfTapsRequired = 2
-    self.view!.addGestureRecognizer(tapRec2)
+    
+    mTapRec2.addTarget(self, action:#selector(GameScene.doubleTapped(_:) ))
+    mTapRec2.numberOfTapsRequired = 2
+    self.view!.addGestureRecognizer(mTapRec2)
+    
+    mTapRec3.addTarget(self, action:#selector(GameScene.tripleTapped(_:) ))
+    mTapRec3.numberOfTapsRequired = 3
+    self.view!.addGestureRecognizer(mTapRec3)
   }
   
   //----------------------------------------------------------------------------
   //----------------------------------------------------------------------------
   func touchDown(atPoint pos : CGPoint) {
-    gameState = .playing
-    pathPoints = []
+    mGameState = .mPlaying
+    mPathPoints = []
     createPath(atPoint: pos)
   }
   
@@ -86,12 +90,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
   //----------------------------------------------------------------------------
   //----------------------------------------------------------------------------
   func touchUp(atPoint pos : CGPoint) {
-    if doubleTapped {
-      doubleTapped = false
+    if mDoubleTapped {
+      mDoubleTapped = false
     }
     else {
       createPath(atPoint: pos)
-      ball?.physicsBody?.isDynamic = true // release ball
+      mBall?.physicsBody?.isDynamic = true // release ball
     }
   }
   
@@ -125,36 +129,27 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     // Called before each frame is rendered
       
     // Initialize _lastUpdateTime if it has not already been
-    if (lastUpdateTime == 0) {
-      lastUpdateTime = currentTime
+    if (mLastUpdateTime == 0) {
+      mLastUpdateTime = currentTime
     }
       
     // Calculate time since last update
-    let dt = currentTime - lastUpdateTime
-      
-    // Update entities
-    for entity in entities {
-      entity.update(deltaTime: dt)
-    }
+//    let dt = currentTime - mLastUpdateTime
     
-    lastUpdateTime = currentTime
+    mLastUpdateTime = currentTime
   }
   
   //----------------------------------------------------------------------------
   //----------------------------------------------------------------------------
   func didBegin(_ contact: SKPhysicsContact) {
-    if gameState == .playing {
-      if contact.bodyA.node == goal || contact.bodyB.node == goal {
-        gameState = .goal
-        goal.fillColor = .red
+    if mGameState == .mPlaying {
+      if contact.bodyA.node == mGoal || contact.bodyB.node == mGoal {
+        mGameState = .mGoal
+        mGoal.fillColor = .red
         
         // next level
         DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(1), execute: {
-          self.level += 1
-          self.gameState = .new
-          self.createBall()
-          self.goal.fillColor = .black
-          self.path?.removeFromParent()
+          self.resetGame(toLevel: self.mLevel + 1)
         })
       }
     }
@@ -163,17 +158,40 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
   //----------------------------------------------------------------------------
   //----------------------------------------------------------------------------
   @objc func doubleTapped(_ sender:UITapGestureRecognizer) {
-    resetScene()
+    resetGame(toLevel: mLevel)
+    mDoubleTapped = true
   }
   
   //----------------------------------------------------------------------------
   //----------------------------------------------------------------------------
-  func resetScene() {
-    gameState = .new
-    createBall()
-    doubleTapped = true
-    goal.fillColor = .black
-    level = 1
+  @objc func tripleTapped(_ sender:UITapGestureRecognizer) {
+    resetGame(toLevel: 1)
+  }
+  
+  //----------------------------------------------------------------------------
+  //----------------------------------------------------------------------------
+  func createGame() {
+    mGameState = .mNew
+    createBall(atLevel: mLevel)
+    createBlock(atLevel: mLevel)
+    createGoal(atLevel: mLevel)
+  }
+  
+  //----------------------------------------------------------------------------
+  //----------------------------------------------------------------------------
+  func resetGame(toLevel level: Int) {
+    mGameState = .mNew
+    mPath?.removeFromParent()
+    createBall(atLevel: mLevel)
+    
+    // so block will keep moving how it was
+    if mLevel != level {
+      createBlock(atLevel: mLevel)
+    }
+    
+    createGoal(atLevel: mLevel)
+    mGoal.fillColor = .black
+    mLevel = level
   }
   
   //----------------------------------------------------------------------------
@@ -187,62 +205,64 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
   //----------------------------------------------------------------------------
   //----------------------------------------------------------------------------
   func createLevelLabel() {
-    levelLabel = SKLabelNode(fontNamed: "Courier")
-    levelLabel.text = "\(level)"
-    levelLabel.horizontalAlignmentMode = .right
-    levelLabel.position = CGPoint(x: size.width * 0.37, y: size.height * 0.46)
+    mLevelLabel = SKLabelNode(fontNamed: "Courier")
+    mLevelLabel.text = "\(mLevel)"
+    mLevelLabel.horizontalAlignmentMode = .right
+    mLevelLabel.position = CGPoint(x: size.width * 0.37, y: size.height * 0.46)
     print("\(size)")
-    addChild(levelLabel)
+    addChild(mLevelLabel)
   }
   
   //----------------------------------------------------------------------------
   //----------------------------------------------------------------------------
-  func createBall() {
-    ball?.removeFromParent()
+  func createBall(atLevel level: Int) {
+    mBall?.removeFromParent()
     let w = (size.width + size.height) * 0.01
-    ball = SKShapeNode.init(circleOfRadius: CGFloat(w))
-    ball.name = "ball"
-    ball.lineWidth = 2.5
-    ball.position = CGPoint(x: -200, y: 300)
-    ball.physicsBody = SKPhysicsBody(circleOfRadius: CGFloat(w))
-    ball.physicsBody?.restitution = 0.75
-    ball.physicsBody?.isDynamic = false
-    ball.physicsBody?.contactTestBitMask = 0b0001
-    addChild(ball)
+    mBall = SKShapeNode.init(circleOfRadius: CGFloat(w))
+    mBall.name = "ball"
+    mBall.lineWidth = 2.5
+    mBall.position = CGPoint(x: -200, y: 300)
+    mBall.physicsBody = SKPhysicsBody(circleOfRadius: CGFloat(w))
+    mBall.physicsBody?.restitution = 0.75
+    mBall.physicsBody?.isDynamic = false
+    mBall.physicsBody?.contactTestBitMask = 0b0001
+    addChild(mBall)
   }
   
   //----------------------------------------------------------------------------
   //----------------------------------------------------------------------------
   func createPath(atPoint pos : CGPoint) {
-    path?.removeFromParent()
-    pathPoints.append(pos)
-    path = SKShapeNode.init(splinePoints: &pathPoints, count: pathPoints.count)
-    path.name = "path"
-    path.lineWidth = 2.5
-    path.physicsBody = SKPhysicsBody(edgeChainFrom: path.path!)
-    path.physicsBody?.isDynamic = false
-    path.physicsBody?.contactTestBitMask = 0b0001
-    addChild(path)
+    mPath?.removeFromParent()
+    mPathPoints.append(pos)
+    mPath = SKShapeNode.init(
+      splinePoints: &mPathPoints,
+      count: mPathPoints.count)
+    mPath.name = "path"
+    mPath.lineWidth = 2.5
+    mPath.physicsBody = SKPhysicsBody(edgeChainFrom: mPath.path!)
+    mPath.physicsBody?.isDynamic = false
+    mPath.physicsBody?.contactTestBitMask = 0b0001
+    addChild(mPath)
   }
   
   //----------------------------------------------------------------------------
   //----------------------------------------------------------------------------
-  func createBlock() {
-    block?.removeFromParent()
+  func createBlock(atLevel level: Int) {
+    mBlock?.removeFromParent()
     let w = (size.width + size.height) * 0.01
     let blockRect = CGRect(x: -w, y: -2 * w, width: 2 * w, height: 4 * w)
-    block = SKShapeNode.init(rect: blockRect)
-    block.name = "block"
-    block.lineWidth = 2.5
-    block.physicsBody = SKPhysicsBody(
+    mBlock = SKShapeNode.init(rect: blockRect)
+    mBlock.name = "block"
+    mBlock.lineWidth = 2.5
+    mBlock.physicsBody = SKPhysicsBody(
       rectangleOf: blockRect.size,
       center: CGPoint(x: 0, y: 0))
-    block.physicsBody?.isDynamic = false
-    block.physicsBody?.contactTestBitMask = 0b0001
-    addChild(block)
+    mBlock.physicsBody?.isDynamic = false
+    mBlock.physicsBody?.contactTestBitMask = 0b0001
+    addChild(mBlock)
     
     loopBlockMovement(
-      block: block,
+      block: mBlock,
       translation: 700,
       duration: 5)
   }
@@ -272,17 +292,17 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
   
   //----------------------------------------------------------------------------
   //----------------------------------------------------------------------------
-  func createGoal() {
-    goal?.removeFromParent()
+  func createGoal(atLevel level: Int) {
+    mGoal?.removeFromParent()
     let w = (size.width + size.height) * 0.01
-    goal = SKShapeNode.init(circleOfRadius: CGFloat(w/2))
-    goal.name = "goal"
-    goal.strokeColor = .red
-    goal.lineWidth = 2.5
-    goal.position = CGPoint(x: 100, y: -350)
-    goal.physicsBody = SKPhysicsBody(circleOfRadius: CGFloat(w/2))
-    goal.physicsBody?.isDynamic = false
-    goal.physicsBody?.contactTestBitMask = 0b0001
-    addChild(goal)
+    mGoal = SKShapeNode.init(circleOfRadius: CGFloat(w/2))
+    mGoal.name = "goal"
+    mGoal.strokeColor = .red
+    mGoal.lineWidth = 2.5
+    mGoal.position = CGPoint(x: 100, y: -350)
+    mGoal.physicsBody = SKPhysicsBody(circleOfRadius: CGFloat(w/2))
+    mGoal.physicsBody?.isDynamic = false
+    mGoal.physicsBody?.contactTestBitMask = 0b0001
+    addChild(mGoal)
   }
 }
