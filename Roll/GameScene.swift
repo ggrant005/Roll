@@ -15,6 +15,26 @@ enum GameState {
   case mGoal
 }
 
+struct ObjectMotion {
+  var mHasMotion: Bool
+  var mBoundingBox: CGRect
+  var mVelocity: CGVector
+  var mAcceleration: CGVector
+}
+
+struct Object {
+  var mStartPosition: CGPoint
+  var mMotion: ObjectMotion
+}
+
+struct LevelContents {
+  let mLevel: Int
+  var mNumBlocks: Int
+  var mBall: Object
+  var mObstacles: [Object]
+  var mGoals: [Object]
+}
+
 class GameScene: SKScene, SKPhysicsContactDelegate {
   
   var mEntities = [GKEntity]()
@@ -43,6 +63,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
       mLevelLabel.text = "\(mLevel)"
     }
   }
+  
+  var mLevels = [LevelContents]()
   
   //----------------------------------------------------------------------------
   //----------------------------------------------------------------------------
