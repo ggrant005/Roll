@@ -204,7 +204,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
   func resetGame(toLevel level: Int) {
     mGameState = .mNew
     mPath?.removeFromParent()
-    createBall(atLevel: mLevel)
+    createBall(atLevel: level)
     
     // so block will keep moving how it was
     if mLevel != level {
@@ -237,22 +237,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
   
   //----------------------------------------------------------------------------
   //----------------------------------------------------------------------------
-  func createBall(atLevel level: Int) {
-    mBall?.removeFromParent()
-    let w = (size.width + size.height) * 0.01
-    mBall = SKShapeNode.init(circleOfRadius: CGFloat(w))
-    mBall.name = "ball"
-    mBall.lineWidth = 2.5
-    mBall.position = CGPoint(x: -200, y: 300)
-    mBall.physicsBody = SKPhysicsBody(circleOfRadius: CGFloat(w))
-    mBall.physicsBody?.restitution = 0.75
-    mBall.physicsBody?.isDynamic = false
-    mBall.physicsBody?.contactTestBitMask = 0b0001
-    addChild(mBall)
-  }
-  
-  //----------------------------------------------------------------------------
-  //----------------------------------------------------------------------------
   func createPath(atPoint pos : CGPoint) {
     mPath?.removeFromParent()
     mPathPoints.append(pos)
@@ -269,47 +253,70 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
   
   //----------------------------------------------------------------------------
   //----------------------------------------------------------------------------
-  func createBlock(atLevel level: Int) {
-    mBlock?.removeFromParent()
+  func createBall(atLevel level: Int) {
+    mBall?.removeFromParent()
     let w = (size.width + size.height) * 0.01
-    let blockRect = CGRect(x: -w, y: -2 * w, width: 2 * w, height: 4 * w)
-    mBlock = SKShapeNode.init(rect: blockRect)
-    mBlock.name = "block"
-    mBlock.lineWidth = 2.5
-    mBlock.physicsBody = SKPhysicsBody(
-      rectangleOf: blockRect.size,
-      center: CGPoint(x: 0, y: 0))
-    mBlock.physicsBody?.isDynamic = false
-    mBlock.physicsBody?.contactTestBitMask = 0b0001
-    addChild(mBlock)
+    mBall = SKShapeNode.init(circleOfRadius: CGFloat(w))
+    mBall.name = "ball"
+    mBall.lineWidth = 2.5
+    mBall.physicsBody = SKPhysicsBody(circleOfRadius: CGFloat(w))
+    mBall.physicsBody?.restitution = 0.75
+    mBall.physicsBody?.isDynamic = false
+    mBall.physicsBody?.contactTestBitMask = 0b0001
     
-    loopBlockMovement(
-      block: mBlock,
-      translation: 700,
-      duration: 5)
+    switch level {
+    case 1:
+      mBall.position = CGPoint(x: -200, y: 300)
+    case 2:
+      mBall.position = CGPoint(x: 200, y: 300)
+    default:
+      mBall.position = CGPoint(x: 50, y: -400)
+    }
+    
+    addChild(mBall)
   }
   
   //----------------------------------------------------------------------------
   //----------------------------------------------------------------------------
-  func loopBlockMovement(
-    block: SKShapeNode,
-    translation: CGFloat,
-    duration: TimeInterval) {
+  func createBlock(atLevel level: Int) {
+    mBlock?.removeFromParent()
+    let w = (size.width + size.height) * 0.01
+    let blockSize = CGSize(width: 2 * w, height: 4 * w)
+    mBlock = SKShapeNode.init(rectOf: blockSize)
+    mBlock.name = "block"
+    mBlock.lineWidth = 2.5
+    mBlock.physicsBody = SKPhysicsBody(rectangleOf: blockSize)
+    mBlock.physicsBody?.isDynamic = false
+    mBlock.physicsBody?.contactTestBitMask = 0b0001
     
-    let moveDown = SKAction.moveBy(
-      x: 0,
-      y: -translation / 2,
-      duration: duration / 2)
+    var xTranslation = CGFloat(0)
+    var yTranslation = CGFloat(0)
+    var duration = TimeInterval(5)
+    switch level {
+    case 1:
+      mBlock.position = CGPoint(x: 0, y: 0)
+      xTranslation = CGFloat(0)
+      yTranslation = CGFloat(700)
+      duration = TimeInterval(5)
+    case 2:
+      mBlock.position = CGPoint(x: 0, y: 0)
+      xTranslation = CGFloat(100)
+      yTranslation = CGFloat(100)
+      duration = TimeInterval(5)
+    default:
+      mBlock.position = CGPoint(x: 50, y: -300)
+      xTranslation = CGFloat(0)
+      yTranslation = CGFloat(100)
+      duration = TimeInterval(0.1)
+    }
     
-    let moveUp = SKAction.moveBy(
-      x: 0,
-      y: translation,
+    loopBlockMovement(
+      block: mBlock,
+      xTranslation: xTranslation,
+      yTranslation: yTranslation,
       duration: duration)
     
-    let moveLoop = SKAction.sequence([moveDown, moveUp, moveDown])
-    let moveForever = SKAction.repeatForever(moveLoop)
-    
-    block.run(moveForever)
+    addChild(mBlock)
   }
   
   //----------------------------------------------------------------------------
@@ -321,10 +328,43 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     mGoal.name = "goal"
     mGoal.strokeColor = .red
     mGoal.lineWidth = 2.5
-    mGoal.position = CGPoint(x: 100, y: -350)
     mGoal.physicsBody = SKPhysicsBody(circleOfRadius: CGFloat(w/2))
     mGoal.physicsBody?.isDynamic = false
     mGoal.physicsBody?.contactTestBitMask = 0b0001
+    
+    switch level {
+    case 1:
+      mGoal.position = CGPoint(x: 100, y: -350)
+    case 2:
+      mGoal.position = CGPoint(x: 100, y: -350)
+    default:
+      mGoal.position = CGPoint(x: 100, y: -350)
+    }
+    
     addChild(mGoal)
+  }
+  
+  //----------------------------------------------------------------------------
+  //----------------------------------------------------------------------------
+  func loopBlockMovement(
+    block: SKShapeNode,
+    xTranslation: CGFloat,
+    yTranslation: CGFloat,
+    duration: TimeInterval) {
+    
+    let firstMove = SKAction.moveBy(
+      x: -xTranslation / 2,
+      y: -yTranslation / 2,
+      duration: duration / 2)
+    
+    let secondMove = SKAction.moveBy(
+      x: xTranslation,
+      y: yTranslation,
+      duration: duration)
+    
+    let moveLoop = SKAction.sequence([firstMove, secondMove, firstMove])
+    let moveForever = SKAction.repeatForever(moveLoop)
+    
+    block.run(moveForever)
   }
 }
