@@ -69,7 +69,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
   //----------------------------------------------------------------------------
   //----------------------------------------------------------------------------
   override func sceneDidLoad() {
-    
     mLastUpdateTime = 0
     
     // create physics world
@@ -166,13 +165,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
   func didBegin(_ contact: SKPhysicsContact) {
     if mGameState == .mPlaying {
       if contact.bodyA.node == mGoal || contact.bodyB.node == mGoal {
-        mGameState = .mGoal
-        mGoal.fillColor = .red
-        
-        // next level
-        DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(1), execute: {
-          self.resetGame(toLevel: self.mLevel + 1)
-        })
+        hitGoal()
       }
     }
   }
@@ -180,40 +173,14 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
   //----------------------------------------------------------------------------
   //----------------------------------------------------------------------------
   @objc func doubleTapped(_ sender:UITapGestureRecognizer) {
-    resetGame(toLevel: mLevel)
+    resetLevel()
     mDoubleTapped = true
   }
   
   //----------------------------------------------------------------------------
   //----------------------------------------------------------------------------
   @objc func tripleTapped(_ sender:UITapGestureRecognizer) {
-    resetGame(toLevel: 1)
-  }
-  
-  //----------------------------------------------------------------------------
-  //----------------------------------------------------------------------------
-  func createGame() {
-    mGameState = .mNew
-    createBall(atLevel: mLevel)
-    createBlock(atLevel: mLevel)
-    createGoal(atLevel: mLevel)
-  }
-  
-  //----------------------------------------------------------------------------
-  //----------------------------------------------------------------------------
-  func resetGame(toLevel level: Int) {
-    mGameState = .mNew
-    mPath?.removeFromParent()
-    createBall(atLevel: level)
-    
-    // so block will keep moving how it was
-    if mLevel != level {
-      createBlock(atLevel: mLevel)
-    }
-    
-    createGoal(atLevel: mLevel)
-    mGoal.fillColor = .black
-    mLevel = level
+    resetGame()
   }
   
   //----------------------------------------------------------------------------
@@ -233,6 +200,64 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     mLevelLabel.position = CGPoint(x: size.width * 0.37, y: size.height * 0.46)
     print("\(size)")
     addChild(mLevelLabel)
+  }
+  
+  //----------------------------------------------------------------------------
+  //----------------------------------------------------------------------------
+  func createObjects(atLevel level: Int) {
+    createBall(atLevel: level)
+    createBlock(atLevel: level)
+    createGoal(atLevel: level)
+  }
+  
+  //----------------------------------------------------------------------------
+  //----------------------------------------------------------------------------
+  func createGame() {
+    mGameState = .mNew
+    
+    createObjects(atLevel: 1)
+  }
+  
+  //----------------------------------------------------------------------------
+  //----------------------------------------------------------------------------
+  func setLevel(to level: Int) {
+    mGameState = .mNew
+    mGoal.fillColor = .black
+    mPath?.removeFromParent()
+    mLevel = level // set label
+    
+    createObjects(atLevel: level)
+  }
+  
+  //----------------------------------------------------------------------------
+  //----------------------------------------------------------------------------
+  func nextLevel() {
+    mLevel += 1
+    setLevel(to: mLevel)
+  }
+  
+  //----------------------------------------------------------------------------
+  //----------------------------------------------------------------------------
+  func resetLevel() {
+    setLevel(to: mLevel)
+  }
+  
+  //----------------------------------------------------------------------------
+  //----------------------------------------------------------------------------
+  func resetGame() {
+    setLevel(to: 1)
+  }
+  
+  //----------------------------------------------------------------------------
+  //----------------------------------------------------------------------------
+  func hitGoal() {
+    mGameState = .mGoal
+    mGoal.fillColor = .red
+    
+    // next level
+    DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(1), execute: {
+      self.nextLevel()
+    })
   }
   
   //----------------------------------------------------------------------------
