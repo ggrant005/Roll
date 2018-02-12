@@ -188,7 +188,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
   func createSceneContents() {
     backgroundColor = .black
     scaleMode = .aspectFit
-    physicsBody = SKPhysicsBody(edgeLoopFrom: frame)
+    //physicsBody = SKPhysicsBody(edgeLoopFrom: frame)
   }
   
   //----------------------------------------------------------------------------
@@ -293,7 +293,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     case 1:
       mBall.position = CGPoint(x: -200, y: 300)
     case 2:
-      mBall.position = CGPoint(x: 200, y: 300)
+      mBall.position = CGPoint(x: 0, y: 50)
+      mBall.physicsBody?.isDynamic = true
     default:
       mBall.position = CGPoint(x: 50, y: -400)
     }
@@ -325,8 +326,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
       duration = TimeInterval(5)
     case 2:
       mBlock.position = CGPoint(x: 0, y: 0)
-      xTranslation = CGFloat(100)
-      yTranslation = CGFloat(100)
+      xTranslation = CGFloat(0)
+      yTranslation = CGFloat(700)
       duration = TimeInterval(5)
     default:
       mBlock.position = CGPoint(x: 50, y: -300)
@@ -361,7 +362,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     case 1:
       mGoal.position = CGPoint(x: 100, y: -350)
     case 2:
-      mGoal.position = CGPoint(x: 100, y: -350)
+      mGoal.position = CGPoint(x: 0, y: -350)
     default:
       mGoal.position = CGPoint(x: 100, y: -350)
     }
