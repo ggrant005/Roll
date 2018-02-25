@@ -212,6 +212,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
   
   //----------------------------------------------------------------------------
   //----------------------------------------------------------------------------
+  func destroyObjects() {
+    removeAllChildren()
+  }
+  
+  //----------------------------------------------------------------------------
+  //----------------------------------------------------------------------------
   func createGame() {
     mGameState = .mNew
     
@@ -233,18 +239,21 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
   //----------------------------------------------------------------------------
   func nextLevel() {
     mLevel += 1
+    destroyObjects()
     setLevel(to: mLevel)
   }
   
   //----------------------------------------------------------------------------
   //----------------------------------------------------------------------------
   func resetLevel() {
+    destroyObjects()
     setLevel(to: mLevel)
   }
   
   //----------------------------------------------------------------------------
   //----------------------------------------------------------------------------
   func resetGame() {
+    destroyObjects()
     setLevel(to: 1)
   }
   
@@ -279,7 +288,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
   //----------------------------------------------------------------------------
   //----------------------------------------------------------------------------
   func createBall(atLevel level: Int) {
-    mBall?.removeFromParent()
     let w = (size.width + size.height) * 0.01
     mBall = SKShapeNode.init(circleOfRadius: CGFloat(w))
     mBall.name = "ball"
@@ -305,7 +313,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
   //----------------------------------------------------------------------------
   //----------------------------------------------------------------------------
   func createBlock(atLevel level: Int) {
-    mBlock?.removeFromParent()
     let w = (size.width + size.height) * 0.01
     let blockSize = CGSize(width: 2 * w, height: 4 * w)
     mBlock = SKShapeNode.init(rectOf: blockSize)
@@ -348,7 +355,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
   //----------------------------------------------------------------------------
   //----------------------------------------------------------------------------
   func createGoal(atLevel level: Int) {
-    mGoal?.removeFromParent()
     let w = (size.width + size.height) * 0.01
     mGoal = SKShapeNode.init(circleOfRadius: CGFloat(w/2))
     mGoal.name = "goal"
