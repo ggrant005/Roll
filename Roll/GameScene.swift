@@ -47,6 +47,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
   var mBlock : SKShapeNode!
   var mGoal : SKShapeNode!
   
+  var mDeleteTheseObjects : [SKShapeNode] = []
+  
   var mPathPoints : [CGPoint] = []
   
   var mDoubleTapped = false
@@ -213,7 +215,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
   //----------------------------------------------------------------------------
   //----------------------------------------------------------------------------
   func destroyObjects() {
-    removeAllChildren()
+    for object in mDeleteTheseObjects {
+      object.removeFromParent()
+    }
   }
   
   //----------------------------------------------------------------------------
@@ -282,6 +286,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     mPath.physicsBody = SKPhysicsBody(edgeChainFrom: mPath.path!)
     mPath.physicsBody?.isDynamic = false
     mPath.physicsBody?.contactTestBitMask = 0b0001
+    
+    mDeleteTheseObjects.append(mPath)
     addChild(mPath)
   }
   
@@ -307,6 +313,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
       mBall.position = CGPoint(x: 50, y: -400)
     }
     
+    mDeleteTheseObjects.append(mBall)
     addChild(mBall)
   }
   
@@ -349,6 +356,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
       yTranslation: yTranslation,
       duration: duration)
     
+    mDeleteTheseObjects.append(mBlock)
     addChild(mBlock)
   }
   
@@ -373,6 +381,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
       mGoal.position = CGPoint(x: 100, y: -350)
     }
     
+    mDeleteTheseObjects.append(mGoal)
     addChild(mGoal)
   }
   
