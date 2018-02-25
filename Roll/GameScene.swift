@@ -68,6 +68,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
   
   var mLevels = [LevelContents]()
   
+  let mNumSparks = 16
+  
   //----------------------------------------------------------------------------
   //----------------------------------------------------------------------------
   override func sceneDidLoad() {
@@ -263,9 +265,36 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
   
   //----------------------------------------------------------------------------
   //----------------------------------------------------------------------------
+  func throwSparks() {
+    let radius = CGFloat(1)
+    let angleRad = 2 * .pi / Double(mNumSparks)
+    
+    for i in 0 ..< mNumSparks {
+      self.childNode(withName: "spark\(i)")?.removeFromParent()
+      let spark = SKShapeNode(circleOfRadius: radius)
+      spark.name = "spark"
+      spark.lineWidth = 2.5
+      spark.position = mGoal.position
+      spark.physicsBody = SKPhysicsBody(circleOfRadius: radius)
+      spark.physicsBody?.restitution = 0.75
+      spark.physicsBody?.isDynamic = true
+      spark.physicsBody?.contactTestBitMask = 0b0001
+      
+      let impulse = CGVector(dx: 10 * cos(Double(i) * angleRad), dy: 10 * sin(Double(i) * angleRad))
+      spark.physicsBody?.applyImpulse(impulse)
+      print("\(impulse)")
+      
+      addChild(spark)
+    }
+  }
+  
+  //----------------------------------------------------------------------------
+  //----------------------------------------------------------------------------
   func hitGoal() {
     mGameState = .mGoal
     mGoal.fillColor = .red
+    
+    throwSparks()
     
     // next level
     DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(1), execute: {
