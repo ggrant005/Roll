@@ -46,7 +46,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
   var mPath : SKShapeNode!
   var mBlock : SKShapeNode!
   var mGoal : SKShapeNode!
-  
+  var mSparks : [SKShapeNode] = []
   var mDeleteTheseObjects : [SKShapeNode] = []
   
   var mPathPoints : [CGPoint] = []
@@ -68,7 +68,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
   
   var mLevels = [LevelContents]()
   
-  let mNumSparks = 16
+  let mNumSparks = 32
   
   //----------------------------------------------------------------------------
   //----------------------------------------------------------------------------
@@ -265,39 +265,15 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
   
   //----------------------------------------------------------------------------
   //----------------------------------------------------------------------------
-  func throwSparks() {
-    let radius = CGFloat(1)
-    let angleRad = 2 * .pi / Double(mNumSparks)
-    
-    for i in 0 ..< mNumSparks {
-      self.childNode(withName: "spark\(i)")?.removeFromParent()
-      let spark = SKShapeNode(circleOfRadius: radius)
-      spark.name = "spark"
-      spark.lineWidth = 2.5
-      spark.position = mGoal.position
-      spark.physicsBody = SKPhysicsBody(circleOfRadius: radius)
-      spark.physicsBody?.restitution = 0.75
-      spark.physicsBody?.isDynamic = true
-      spark.physicsBody?.contactTestBitMask = 0b0001
-      
-      let impulse = CGVector(dx: 10 * cos(Double(i) * angleRad), dy: 10 * sin(Double(i) * angleRad))
-      spark.physicsBody?.applyImpulse(impulse)
-      print("\(impulse)")
-      
-      addChild(spark)
-    }
-  }
-  
-  //----------------------------------------------------------------------------
-  //----------------------------------------------------------------------------
   func hitGoal() {
     mGameState = .mGoal
-    mGoal.fillColor = .red
+    mGoal.removeFromParent()
+    mPath.removeFromParent()
     
     throwSparks()
     
     // next level
-    DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(1), execute: {
+    DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(2), execute: {
       self.nextLevel()
     })
   }
@@ -398,6 +374,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     mGoal.strokeColor = .red
     mGoal.lineWidth = 2.5
     mGoal.physicsBody = SKPhysicsBody(circleOfRadius: CGFloat(w/2))
+    mBall.physicsBody?.restitution = 0.75
     mGoal.physicsBody?.isDynamic = false
     mGoal.physicsBody?.contactTestBitMask = 0b0001
     
@@ -412,6 +389,28 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     mDeleteTheseObjects.append(mGoal)
     addChild(mGoal)
+  }
+  
+  //----------------------------------------------------------------------------
+  //----------------------------------------------------------------------------
+  func throwSparks() {
+    let angleRad = 2 * .pi / Double(mNumSparks)
+    let radius = CGFloat(1)
+    for i in 0 ..< mNumSparks {
+      mSparks.append(SKShapeNode(circleOfRadius: radius))
+      mSparks[i].name = "spark"
+      mSparks[i].lineWidth = 2.5
+      mSparks[i].position = mGoal.position
+      mSparks[i].physicsBody = SKPhysicsBody(circleOfRadius: radius)
+      
+      mDeleteTheseObjects.append(mSparks[i])
+      addChild(mSparks[i])
+      
+      let angle = Double(i) * angleRad
+      let impulse = CGVector(dx: 0.02 * cos(angle), dy: 0.02 * sin(angle))
+      mSparks[i].physicsBody?.applyImpulse(impulse)
+      print("\(impulse)")
+    }
   }
   
   //----------------------------------------------------------------------------
