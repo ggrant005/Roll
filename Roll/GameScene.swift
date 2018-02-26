@@ -37,11 +37,6 @@ struct LevelContents {
 
 class GameScene: SKScene, SKPhysicsContactDelegate {
   
-  var mEntities = [GKEntity]()
-  var mGraphs = [String : GKGraph]()
-  
-  var mLastUpdateTime : TimeInterval = 0
-  
   var mBall : SKShapeNode!
   var mPath : SKShapeNode!
   var mBlock : SKShapeNode!
@@ -73,8 +68,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
   //----------------------------------------------------------------------------
   //----------------------------------------------------------------------------
   override func sceneDidLoad() {
-    mLastUpdateTime = 0
-    
     // create physics world
     physicsWorld.gravity = CGVector(dx: 0.0, dy: -5.0)
     physicsWorld.contactDelegate = self
@@ -152,16 +145,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
   //----------------------------------------------------------------------------
   override func update(_ currentTime: TimeInterval) {
     // Called before each frame is rendered
-      
-    // Initialize _lastUpdateTime if it has not already been
-    if (mLastUpdateTime == 0) {
-      mLastUpdateTime = currentTime
-    }
-      
-    // Calculate time since last update
-//    let dt = currentTime - mLastUpdateTime
-    
-    mLastUpdateTime = currentTime
     
     // ball offscreen
     if (mBall.position.y < -2 * size.height) {
