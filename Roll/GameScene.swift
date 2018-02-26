@@ -162,6 +162,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
 //    let dt = currentTime - mLastUpdateTime
     
     mLastUpdateTime = currentTime
+    
+    // ball offscreen
+    if (mBall.position.y < -2 * size.height) {
+      resetLevel()
+    }
   }
   
   //----------------------------------------------------------------------------
@@ -192,7 +197,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
   func createSceneContents() {
     backgroundColor = .black
     scaleMode = .aspectFit
-    //physicsBody = SKPhysicsBody(edgeLoopFrom: frame)
   }
   
   //----------------------------------------------------------------------------
