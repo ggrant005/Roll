@@ -202,7 +202,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     mLevelLabel.text = "\(mLevel)"
     mLevelLabel.horizontalAlignmentMode = .right
     mLevelLabel.position = CGPoint(x: size.width * 0.37, y: size.height * 0.46)
-    print("\(size)")
     addChild(mLevelLabel)
   }
   
@@ -409,7 +408,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
       let angle = Double(i) * angleRad
       let impulse = CGVector(dx: 0.02 * cos(angle), dy: 0.02 * sin(angle))
       mSparks[i].physicsBody?.applyImpulse(impulse)
-      print("\(impulse)")
     }
   }
   
