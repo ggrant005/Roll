@@ -147,8 +147,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     // Called before each frame is rendered
     
     // ball offscreen
-    if (mBall.position.y < -2 * size.height) {
-      resetLevel()
+    if mGameState == .mPlaying {
+      if (mBall.position.y < -1 * size.height) {
+        resetLevel()
+      }
     }
   }
   
