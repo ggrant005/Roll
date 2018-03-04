@@ -107,11 +107,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
   //----------------------------------------------------------------------------
   //----------------------------------------------------------------------------
   func touchUp(atPoint pos : CGPoint) {
-    if mGameState != .mGoal {
-      if mTripleTapped {
-        mTripleTapped = false
-      }
-      else {
+    if mTripleTapped {
+      mTripleTapped = false
+    }
+    else {
+      if mGameState != .mGoal {
         createPath(atPoint: pos)
         mBall?.physicsBody?.isDynamic = true // release ball
       }
@@ -169,14 +169,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
   
   //----------------------------------------------------------------------------
   //----------------------------------------------------------------------------
-  @objc func doubleTapped(_ sender:UITapGestureRecognizer) {
-  }
-  
-  //----------------------------------------------------------------------------
-  //----------------------------------------------------------------------------
   @objc func tripleTapped(_ sender:UITapGestureRecognizer) {
-    mTripleTapped = true
-    resetGame()
+    if mGameState != .mGoal {
+      mTripleTapped = true
+      resetGame()
+    }
   }
   
   //----------------------------------------------------------------------------
