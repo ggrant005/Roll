@@ -146,9 +146,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
   override func update(_ currentTime: TimeInterval) {
     // Called before each frame is rendered
     
-    // ball offscreen
+    // auto reset when ball drops offscreen
     if mGameState == .mPlaying {
-      if (mBall.position.y < -1 * size.height) {
+      if (mBall.position.y < -0.75 * size.height) {
         resetLevel()
       }
     }
