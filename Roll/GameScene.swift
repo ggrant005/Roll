@@ -46,9 +46,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
   
   var mPathPoints : [CGPoint] = []
   
-  var mDoubleTapped = false
+  var mTripleTapped = false
   
-  let mTapRec2 = UITapGestureRecognizer()
   let mTapRec3 = UITapGestureRecognizer()
   
   var mLevelLabel: SKLabelNode!
@@ -82,10 +81,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
   override func didMove(to view: SKView) {
     self.view!.isMultipleTouchEnabled = false
     
-    mTapRec2.addTarget(self, action:#selector(GameScene.doubleTapped(_:) ))
-    mTapRec2.numberOfTapsRequired = 2
-    self.view!.addGestureRecognizer(mTapRec2)
-    
     mTapRec3.addTarget(self, action:#selector(GameScene.tripleTapped(_:) ))
     mTapRec3.numberOfTapsRequired = 3
     self.view!.addGestureRecognizer(mTapRec3)
@@ -108,8 +103,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
   //----------------------------------------------------------------------------
   //----------------------------------------------------------------------------
   func touchUp(atPoint pos : CGPoint) {
-    if mDoubleTapped {
-      mDoubleTapped = false
+    if mTripleTapped {
+      mTripleTapped = false
     }
     else {
       createPath(atPoint: pos)
@@ -169,13 +164,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
   //----------------------------------------------------------------------------
   //----------------------------------------------------------------------------
   @objc func doubleTapped(_ sender:UITapGestureRecognizer) {
-    //resetLevel()
-    //mDoubleTapped = true
   }
   
   //----------------------------------------------------------------------------
   //----------------------------------------------------------------------------
   @objc func tripleTapped(_ sender:UITapGestureRecognizer) {
+    mTripleTapped = true
     resetGame()
   }
   
