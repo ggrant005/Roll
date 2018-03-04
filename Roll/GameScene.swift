@@ -148,8 +148,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     // auto reset when ball drops offscreen
     if mGameState == .mPlaying {
-      if (mBall.position.y < -0.75 * size.height) {
-        resetLevel()
+      if mBall.position.x > 0.6 * size.width ||
+        mBall.position.x < -0.6 * size.width ||
+        mBall.position.y < -0.75 * size.height {
+          resetLevel()
       }
     }
   }
