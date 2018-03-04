@@ -382,7 +382,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
   //----------------------------------------------------------------------------
   //----------------------------------------------------------------------------
   func throwSparks() {
-    let angleRad = 2 * .pi / Double(mNumSparks)
     let radius = CGFloat(1)
     for i in 0 ..< mNumSparks {
       mSparks.append(SKShapeNode(circleOfRadius: radius))
@@ -394,8 +393,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
       mDeleteTheseObjects.append(mSparks[i])
       addChild(mSparks[i])
       
-      let angle = Double(i) * angleRad
-      let impulse = CGVector(dx: 0.02 * cos(angle), dy: 0.02 * sin(angle))
+      let impulse = CGVector(
+        dx: 0.03 * (2.0 * drand48() - 1.0),
+        dy: 0.03 * (2.0 * drand48() - 1.0))
       mSparks[i].physicsBody?.applyImpulse(impulse)
     }
   }
