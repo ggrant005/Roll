@@ -89,15 +89,19 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
   //----------------------------------------------------------------------------
   //----------------------------------------------------------------------------
   func touchDown(atPoint pos : CGPoint) {
-    mGameState = .mPlaying
-    mPathPoints = []
-    createPath(atPoint: pos)
+    if mGameState != .mGoal {
+      mGameState = .mPlaying
+      mPathPoints = []
+      createPath(atPoint: pos)
+    }
   }
   
   //----------------------------------------------------------------------------
   //----------------------------------------------------------------------------
   func touchMoved(toPoint pos : CGPoint) {
-    createPath(atPoint: pos)
+    if mGameState != .mGoal {
+      createPath(atPoint: pos)
+    }
   }
   
   //----------------------------------------------------------------------------
@@ -107,8 +111,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
       mTripleTapped = false
     }
     else {
-      createPath(atPoint: pos)
-      mBall?.physicsBody?.isDynamic = true // release ball
+      if mGameState != .mGoal {
+        createPath(atPoint: pos)
+        mBall?.physicsBody?.isDynamic = true // release ball
+      }
     }
   }
   
