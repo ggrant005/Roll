@@ -63,7 +63,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
   
   var mLevels = [LevelContents]()
   
-  let mNumSparks = 32
+  let mNumSparks = 128
   
   //----------------------------------------------------------------------------
   //----------------------------------------------------------------------------
@@ -167,8 +167,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
   //----------------------------------------------------------------------------
   //----------------------------------------------------------------------------
   @objc func doubleTapped(_ sender:UITapGestureRecognizer) {
-    resetLevel()
-    mDoubleTapped = true
+    //resetLevel()
+    //mDoubleTapped = true
   }
   
   //----------------------------------------------------------------------------
