@@ -40,8 +40,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
   }
   
-  var mLevels = [LevelContents]()
-  
   let mNumSparks = 128
   
   //----------------------------------------------------------------------------
