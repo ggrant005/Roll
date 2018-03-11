@@ -8,6 +8,13 @@
 
 /* Begin PBXBuildFile section */
 		37BC6A3D2055B071007987EF /* Level1.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37BC6A3C2055B071007987EF /* Level1.swift */; };
+		37BC6A3F2055B273007987EF /* LevelOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37BC6A3E2055B273007987EF /* LevelOptions.swift */; };
+		37BC6A412055B3D1007987EF /* BallOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37BC6A402055B3D1007987EF /* BallOptions.swift */; };
+		37BC6A432055B443007987EF /* BlockOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37BC6A422055B443007987EF /* BlockOptions.swift */; };
+		37BC6A452055B539007987EF /* GoalOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37BC6A442055B539007987EF /* GoalOptions.swift */; };
+		37BC6A492055C2CD007987EF /* Level2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37BC6A482055C2CD007987EF /* Level2.swift */; };
+		37BC6A4B2055C459007987EF /* Level3.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37BC6A4A2055C459007987EF /* Level3.swift */; };
+		37BC6A4D2055C5DC007987EF /* Level.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37BC6A4C2055C5DC007987EF /* Level.swift */; };
 		37C169E42002C32C0051EEE3 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37C169E32002C32C0051EEE3 /* AppDelegate.swift */; };
 		37C169E62002C32C0051EEE3 /* GameScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = 37C169E52002C32C0051EEE3 /* GameScene.sks */; };
 		37C169E82002C32C0051EEE3 /* Actions.sks in Resources */ = {isa = PBXBuildFile; fileRef = 37C169E72002C32C0051EEE3 /* Actions.sks */; };
@@ -20,6 +27,13 @@
 
 /* Begin PBXFileReference section */
 		37BC6A3C2055B071007987EF /* Level1.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Level1.swift; sourceTree = "<group>"; };
+		37BC6A3E2055B273007987EF /* LevelOptions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LevelOptions.swift; sourceTree = "<group>"; };
+		37BC6A402055B3D1007987EF /* BallOptions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BallOptions.swift; sourceTree = "<group>"; };
+		37BC6A422055B443007987EF /* BlockOptions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlockOptions.swift; sourceTree = "<group>"; };
+		37BC6A442055B539007987EF /* GoalOptions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoalOptions.swift; sourceTree = "<group>"; };
+		37BC6A482055C2CD007987EF /* Level2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Level2.swift; sourceTree = "<group>"; };
+		37BC6A4A2055C459007987EF /* Level3.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Level3.swift; sourceTree = "<group>"; };
+		37BC6A4C2055C5DC007987EF /* Level.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Level.swift; sourceTree = "<group>"; };
 		37C169E02002C32C0051EEE3 /* Roll.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Roll.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		37C169E32002C32C0051EEE3 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		37C169E52002C32C0051EEE3 /* GameScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = GameScene.sks; sourceTree = "<group>"; };
@@ -47,15 +61,28 @@
 			isa = PBXGroup;
 			children = (
 				37BC6A3C2055B071007987EF /* Level1.swift */,
+				37BC6A482055C2CD007987EF /* Level2.swift */,
+				37BC6A4A2055C459007987EF /* Level3.swift */,
 			);
 			path = Levels;
+			sourceTree = "<group>";
+		};
+		37BC6A4E2055C76B007987EF /* Options */ = {
+			isa = PBXGroup;
+			children = (
+				37BC6A402055B3D1007987EF /* BallOptions.swift */,
+				37BC6A422055B443007987EF /* BlockOptions.swift */,
+				37BC6A442055B539007987EF /* GoalOptions.swift */,
+				37BC6A3E2055B273007987EF /* LevelOptions.swift */,
+			);
+			path = Options;
 			sourceTree = "<group>";
 		};
 		37C169D72002C32C0051EEE3 = {
 			isa = PBXGroup;
 			children = (
-				37C169E22002C32C0051EEE3 /* Roll */,
 				37C169E12002C32C0051EEE3 /* Products */,
+				37C169E22002C32C0051EEE3 /* Roll */,
 			);
 			sourceTree = "<group>";
 		};
@@ -70,16 +97,18 @@
 		37C169E22002C32C0051EEE3 /* Roll */ = {
 			isa = PBXGroup;
 			children = (
+				37C169F52002C32C0051EEE3 /* Info.plist */,
+				37BC6A4E2055C76B007987EF /* Options */,
 				37BC6A3B2055AED4007987EF /* Levels */,
-				37C169E32002C32C0051EEE3 /* AppDelegate.swift */,
-				37C169E52002C32C0051EEE3 /* GameScene.sks */,
 				37C169E72002C32C0051EEE3 /* Actions.sks */,
+				37C169E52002C32C0051EEE3 /* GameScene.sks */,
+				37C169E32002C32C0051EEE3 /* AppDelegate.swift */,
+				37BC6A4C2055C5DC007987EF /* Level.swift */,
 				37C169E92002C32C0051EEE3 /* GameScene.swift */,
 				37C169EB2002C32C0051EEE3 /* GameViewController.swift */,
-				37C169ED2002C32C0051EEE3 /* Main.storyboard */,
 				37C169F02002C32C0051EEE3 /* Assets.xcassets */,
 				37C169F22002C32C0051EEE3 /* LaunchScreen.storyboard */,
-				37C169F52002C32C0051EEE3 /* Info.plist */,
+				37C169ED2002C32C0051EEE3 /* Main.storyboard */,
 			);
 			path = Roll;
 			sourceTree = "<group>";
@@ -159,9 +188,16 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				37BC6A4B2055C459007987EF /* Level3.swift in Sources */,
+				37BC6A4D2055C5DC007987EF /* Level.swift in Sources */,
+				37BC6A492055C2CD007987EF /* Level2.swift in Sources */,
 				37BC6A3D2055B071007987EF /* Level1.swift in Sources */,
+				37BC6A412055B3D1007987EF /* BallOptions.swift in Sources */,
 				37C169EA2002C32C0051EEE3 /* GameScene.swift in Sources */,
+				37BC6A452055B539007987EF /* GoalOptions.swift in Sources */,
 				37C169EC2002C32C0051EEE3 /* GameViewController.swift in Sources */,
+				37BC6A3F2055B273007987EF /* LevelOptions.swift in Sources */,
+				37BC6A432055B443007987EF /* BlockOptions.swift in Sources */,
 				37C169E42002C32C0051EEE3 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

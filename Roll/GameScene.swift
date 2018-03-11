@@ -30,13 +30,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
   
   let mTapRec3 = UITapGestureRecognizer()
   
-  var mLevelLabel: SKLabelNode!
-  
   var mGameState = GameState.mNew
   
-  var mLevel: Int = 1 {
+  var mLevel = Level()
+  var mLevelLabel: SKLabelNode!
+  var mLevelNum: Int = 1 {
     didSet {
-      mLevelLabel.text = "\(mLevel)"
+      mLevelLabel.text = "\(mLevelNum)"
     }
   }
   
@@ -51,7 +51,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     createSceneContents()
     createLevelLabel()
-    createGame()
+    setLevel(to: mLevelNum)
   }
   
   //----------------------------------------------------------------------------
@@ -165,7 +165,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
   //----------------------------------------------------------------------------
   func createLevelLabel() {
     mLevelLabel = SKLabelNode(fontNamed: "Courier")
-    mLevelLabel.text = "\(mLevel)"
+    mLevelLabel.text = "\(mLevelNum)"
     mLevelLabel.horizontalAlignmentMode = .right
     mLevelLabel.position = CGPoint(x: size.width * 0.37, y: size.height * 0.46)
     addChild(mLevelLabel)
@@ -189,36 +189,39 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
   
   //----------------------------------------------------------------------------
   //----------------------------------------------------------------------------
-  func createGame() {
+  func setLevel(to levelNum: Int) {
     mGameState = .mNew
-    
-    createObjects(atLevel: 1)
-  }
-  
-  //----------------------------------------------------------------------------
-  //----------------------------------------------------------------------------
-  func setLevel(to level: Int) {
-    mGameState = .mNew
-    mGoal.fillColor = .black
+    mGoal?.fillColor = .black
     mPath?.removeFromParent()
-    mLevel = level // set label
+    mLevelNum = levelNum // set label
     
-    createObjects(atLevel: level)
+    switch levelNum {
+    case 1:
+      mLevel = Level1()
+    case 2:
+      mLevel = Level2()
+    case 3:
+      mLevel = Level3()
+    default:
+      mLevel = Level1()
+    }
+    
+    createObjects(atLevel: levelNum)
   }
   
   //----------------------------------------------------------------------------
   //----------------------------------------------------------------------------
   func nextLevel() {
-    mLevel += 1
+    mLevelNum += 1
     destroyObjects()
-    setLevel(to: mLevel)
+    setLevel(to: mLevelNum)
   }
   
   //----------------------------------------------------------------------------
   //----------------------------------------------------------------------------
   func resetLevel() {
     destroyObjects()
-    setLevel(to: mLevel)
+    setLevel(to: mLevelNum)
   }
   
   //----------------------------------------------------------------------------
@@ -273,15 +276,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     mBall.physicsBody?.isDynamic = false
     mBall.physicsBody?.contactTestBitMask = 0b0001
     
-    switch level {
-    case 1:
-      mBall.position = CGPoint(x: -200, y: 300)
-    case 2:
-      mBall.position = CGPoint(x: 0, y: 50)
-      mBall.physicsBody?.isDynamic = true
-    default:
-      mBall.position = CGPoint(x: 50, y: -400)
-    }
+    mBall.position = mLevel.mLevelOptions.mBallOptions.mStartPosition
+    mBall.physicsBody?.isDynamic = mLevel.mLevelOptions.mBallOptions.mIsDynamic
     
     mDeleteTheseObjects.append(mBall)
     addChild(mBall)
@@ -299,32 +295,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     mBlock.physicsBody?.isDynamic = false
     mBlock.physicsBody?.contactTestBitMask = 0b0001
     
-    var xTranslation = CGFloat(0)
-    var yTranslation = CGFloat(0)
-    var duration = TimeInterval(5)
-    switch level {
-    case 1:
-      mBlock.position = CGPoint(x: 0, y: 0)
-      xTranslation = CGFloat(0)
-      yTranslation = CGFloat(700)
-      duration = TimeInterval(5)
-    case 2:
-      mBlock.position = CGPoint(x: 0, y: 0)
-      xTranslation = CGFloat(0)
-      yTranslation = CGFloat(700)
-      duration = TimeInterval(5)
-    default:
-      mBlock.position = CGPoint(x: 50, y: -300)
-      xTranslation = CGFloat(0)
-      yTranslation = CGFloat(100)
-      duration = TimeInterval(0.1)
-    }
+    mBlock.position = mLevel.mLevelOptions.mBlockOptions.mStartPosition
     
     loopBlockMovement(
       block: mBlock,
-      xTranslation: xTranslation,
-      yTranslation: yTranslation,
-      duration: duration)
+      xTranslation: mLevel.mLevelOptions.mBlockOptions.mXTrans,
+      yTranslation: mLevel.mLevelOptions.mBlockOptions.mYTrans,
+      duration: mLevel.mLevelOptions.mBlockOptions.mMovementDuration)
     
     mDeleteTheseObjects.append(mBlock)
     addChild(mBlock)
@@ -343,14 +320,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     mGoal.physicsBody?.isDynamic = false
     mGoal.physicsBody?.contactTestBitMask = 0b0001
     
-    switch level {
-    case 1:
-      mGoal.position = CGPoint(x: 100, y: -350)
-    case 2:
-      mGoal.position = CGPoint(x: 0, y: -350)
-    default:
-      mGoal.position = CGPoint(x: 100, y: -350)
-    }
+    mGoal.position = mLevel.mLevelOptions.mGoalOptions.mStartPosition
     
     mDeleteTheseObjects.append(mGoal)
     addChild(mGoal)
