@@ -297,11 +297,19 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     mBlock.position = mLevel.mLevelOptions.mBlockOptions.mStartPosition
     
-    loopBlockMovement(
-      block: mBlock,
-      xTranslation: mLevel.mLevelOptions.mBlockOptions.mXTrans,
-      yTranslation: mLevel.mLevelOptions.mBlockOptions.mYTrans,
+    switch mLevel.mLevelOptions.mBlockOptions.mMovementType {
+    case .mRotate:
+      BlockMovement.loop(
+      shapeNode: mBlock,
+      byAngle: mLevel.mLevelOptions.mBlockOptions.mRotationAngle,
       duration: mLevel.mLevelOptions.mBlockOptions.mMovementDuration)
+    case .mTranslate:
+      BlockMovement.loop(
+        shapeNode: mBlock,
+        xTranslation: mLevel.mLevelOptions.mBlockOptions.mXTrans,
+        yTranslation: mLevel.mLevelOptions.mBlockOptions.mYTrans,
+        duration: mLevel.mLevelOptions.mBlockOptions.mMovementDuration)
+    }
     
     mDeleteTheseObjects.append(mBlock)
     addChild(mBlock)
@@ -345,29 +353,5 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         dy: 0.03 * (2.0 * drand48() - 1.0))
       mSparks[i].physicsBody?.applyImpulse(impulse)
     }
-  }
-  
-  //----------------------------------------------------------------------------
-  //----------------------------------------------------------------------------
-  func loopBlockMovement(
-    block: SKShapeNode,
-    xTranslation: CGFloat,
-    yTranslation: CGFloat,
-    duration: TimeInterval) {
-    
-    let firstMove = SKAction.moveBy(
-      x: -xTranslation / 2,
-      y: -yTranslation / 2,
-      duration: duration / 2)
-    
-    let secondMove = SKAction.moveBy(
-      x: xTranslation,
-      y: yTranslation,
-      duration: duration)
-    
-    let moveLoop = SKAction.sequence([firstMove, secondMove, firstMove])
-    let moveForever = SKAction.repeatForever(moveLoop)
-    
-    block.run(moveForever)
   }
 }

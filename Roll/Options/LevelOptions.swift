@@ -8,8 +8,6 @@
 
 import SpriteKit
 
-//----------------------------------------------------------------------------
-//----------------------------------------------------------------------------
 struct LevelOptions {
   var mBallOptions = BallOptions()
   var mBlockOptions = BlockOptions()

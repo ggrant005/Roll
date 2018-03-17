@@ -8,11 +8,11 @@
 
 import SpriteKit
 
-//----------------------------------------------------------------------------
-//----------------------------------------------------------------------------
 struct BlockOptions {
   var mStartPosition = CGPoint(x: 0, y: 0)
+  var mMovementDuration = TimeInterval(0)
+  var mMovementType = MovementType.mTranslate
   var mXTrans = CGFloat(0)
   var mYTrans = CGFloat(0)
-  var mMovementDuration = TimeInterval(0)
+  var mRotationAngle = CGFloat(0)
 }
