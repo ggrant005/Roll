@@ -24,7 +24,8 @@
 		37C169F12002C32C0051EEE3 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 37C169F02002C32C0051EEE3 /* Assets.xcassets */; };
 		37C169F42002C32C0051EEE3 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 37C169F22002C32C0051EEE3 /* LaunchScreen.storyboard */; };
 		37DE752F2055FB400023BEF5 /* BlockMovement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37DE752E2055FB400023BEF5 /* BlockMovement.swift */; };
-		37DE7531205600750023BEF5 /* MovementType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37DE7530205600750023BEF5 /* MovementType.swift */; };
+		37DE7531205600750023BEF5 /* Movement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37DE7530205600750023BEF5 /* Movement.swift */; };
+		37DE7533205D965F0023BEF5 /* Level4.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37DE7532205D965F0023BEF5 /* Level4.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -47,7 +48,8 @@
 		37C169F32002C32C0051EEE3 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		37C169F52002C32C0051EEE3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		37DE752E2055FB400023BEF5 /* BlockMovement.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlockMovement.swift; sourceTree = "<group>"; };
-		37DE7530205600750023BEF5 /* MovementType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovementType.swift; sourceTree = "<group>"; };
+		37DE7530205600750023BEF5 /* Movement.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Movement.swift; sourceTree = "<group>"; };
+		37DE7532205D965F0023BEF5 /* Level4.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Level4.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -67,6 +69,7 @@
 				37BC6A3C2055B071007987EF /* Level1.swift */,
 				37BC6A482055C2CD007987EF /* Level2.swift */,
 				37BC6A4A2055C459007987EF /* Level3.swift */,
+				37DE7532205D965F0023BEF5 /* Level4.swift */,
 			);
 			path = Levels;
 			sourceTree = "<group>";
@@ -108,7 +111,7 @@
 				37C169E52002C32C0051EEE3 /* GameScene.sks */,
 				37C169E32002C32C0051EEE3 /* AppDelegate.swift */,
 				37DE752E2055FB400023BEF5 /* BlockMovement.swift */,
-				37DE7530205600750023BEF5 /* MovementType.swift */,
+				37DE7530205600750023BEF5 /* Movement.swift */,
 				37BC6A4C2055C5DC007987EF /* Level.swift */,
 				37C169E92002C32C0051EEE3 /* GameScene.swift */,
 				37C169EB2002C32C0051EEE3 /* GameViewController.swift */,
@@ -195,8 +198,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				37BC6A4B2055C459007987EF /* Level3.swift in Sources */,
+				37DE7533205D965F0023BEF5 /* Level4.swift in Sources */,
 				37DE752F2055FB400023BEF5 /* BlockMovement.swift in Sources */,
-				37DE7531205600750023BEF5 /* MovementType.swift in Sources */,
+				37DE7531205600750023BEF5 /* Movement.swift in Sources */,
 				37BC6A4D2055C5DC007987EF /* Level.swift in Sources */,
 				37BC6A492055C2CD007987EF /* Level2.swift in Sources */,
 				37BC6A3D2055B071007987EF /* Level1.swift in Sources */,

@@ -10,7 +10,7 @@ import SpriteKit
 
 class BlockMovement {
   
-  static func loop(
+  static func loopTranslate(
     shapeNode: SKShapeNode,
     xTranslation: CGFloat,
     yTranslation: CGFloat,
@@ -32,7 +32,7 @@ class BlockMovement {
     shapeNode.run(moveForever)
   }
   
-  static func loop(
+  static func loopRotate(
     shapeNode: SKShapeNode,
     byAngle: CGFloat,
     duration: TimeInterval) {
@@ -49,5 +49,18 @@ class BlockMovement {
     let moveForever = SKAction.repeatForever(moveLoop)
     
     shapeNode.run(moveForever)
+  }
+  
+  static func loopSpin(
+    shapeNode: SKShapeNode,
+    duration: TimeInterval) {
+    
+    let spin = SKAction.rotate(
+      byAngle: 2 * .pi,
+      duration: duration)
+    
+    let spinForever = SKAction.repeatForever(spin)
+    
+    shapeNode.run(spinForever)
   }
 }

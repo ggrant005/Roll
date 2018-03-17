@@ -202,6 +202,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
       mLevel = Level2()
     case 3:
       mLevel = Level3()
+    case 4:
+      mLevel = Level4()
     default:
       mLevel = Level1()
     }
@@ -297,18 +299,22 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     mBlock.position = mLevel.mLevelOptions.mBlockOptions.mStartPosition
     
-    switch mLevel.mLevelOptions.mBlockOptions.mMovementType {
-    case .mRotate:
-      BlockMovement.loop(
-      shapeNode: mBlock,
-      byAngle: mLevel.mLevelOptions.mBlockOptions.mRotationAngle,
-      duration: mLevel.mLevelOptions.mBlockOptions.mMovementDuration)
-    case .mTranslate:
-      BlockMovement.loop(
+    switch mLevel.mLevelOptions.mBlockOptions.mMovement {
+    case .mRotate(let angle, let duration):
+      BlockMovement.loopRotate(
         shapeNode: mBlock,
-        xTranslation: mLevel.mLevelOptions.mBlockOptions.mXTrans,
-        yTranslation: mLevel.mLevelOptions.mBlockOptions.mYTrans,
-        duration: mLevel.mLevelOptions.mBlockOptions.mMovementDuration)
+        byAngle: angle,
+        duration: duration)
+    case .mSpin(let duration):
+      BlockMovement.loopSpin(
+        shapeNode: mBlock,
+        duration: duration)
+    case .mTranslate(let xTrans, let yTrans, let duration):
+      BlockMovement.loopTranslate(
+        shapeNode: mBlock,
+        xTranslation: xTrans,
+        yTranslation: yTrans,
+        duration: duration)
     }
     
     mDeleteTheseObjects.append(mBlock)
