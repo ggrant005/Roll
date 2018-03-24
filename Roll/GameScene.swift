@@ -12,7 +12,6 @@ import GameplayKit
 class GameScene: SKScene, SKPhysicsContactDelegate {
   
   var mPath : SKShapeNode!
-  var mSparks : [SKShapeNode] = []
   var mDeleteTheseObjects : [SKShapeNode] = []
   
   var mPathPoints : [CGPoint] = []
@@ -30,8 +29,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
       mLevelLabel.text = "\(mLevelNum)"
     }
   }
-  
-  let mNumSparks = 128
   
   //----------------------------------------------------------------------------
   //----------------------------------------------------------------------------
@@ -232,7 +229,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     mLevel.mGoal.removeFromParent()
     mPath.removeFromParent()
     
-    throwSparks()
+    throwSparks(with: 75)
     
     // next level
     DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(2), execute: {
@@ -284,22 +281,23 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
   
   //----------------------------------------------------------------------------
   //----------------------------------------------------------------------------
-  func throwSparks() {
+  func throwSparks(with numSparks: Int) {
     let radius = CGFloat(1)
-    for i in 0 ..< mNumSparks {
-      mSparks.append(SKShapeNode(circleOfRadius: radius))
-      mSparks[i].name = "spark"
-      mSparks[i].lineWidth = 2.5
-      mSparks[i].position = mLevel.mGoal.position
-      mSparks[i].physicsBody = SKPhysicsBody(circleOfRadius: radius)
+    var sparks: [SKShapeNode] = []
+    for i in 0 ..< numSparks {
+      sparks.append(SKShapeNode(circleOfRadius: radius))
+      sparks[i].name = "spark"
+      sparks[i].lineWidth = 2.5
+      sparks[i].position = mLevel.mGoal.position
+      sparks[i].physicsBody = SKPhysicsBody(circleOfRadius: radius)
       
-      mDeleteTheseObjects.append(mSparks[i])
-      addChild(mSparks[i])
+      mDeleteTheseObjects.append(sparks[i])
+      addChild(sparks[i])
       
       let impulse = CGVector(
-        dx: 0.03 * (2.0 * drand48() - 1.0),
-        dy: 0.03 * (2.0 * drand48() - 1.0))
-      mSparks[i].physicsBody?.applyImpulse(impulse)
+        dx: 0.05 * (2.0 * drand48() - 1.0),
+        dy: 0.05 * (2.0 * drand48() - 1.0))
+      sparks[i].physicsBody?.applyImpulse(impulse)
     }
   }
 }
