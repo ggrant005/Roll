@@ -165,7 +165,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
   
   //----------------------------------------------------------------------------
   //----------------------------------------------------------------------------
-  func createObjects(atLevel level: Int) {
+  func createObjects() {
     createBall()
     createBlock()
     createGoal()
@@ -200,7 +200,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
       mLevel = Level1()
     }
     
-    createObjects(atLevel: levelNum)
+    createObjects()
   }
   
   //----------------------------------------------------------------------------
