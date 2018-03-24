@@ -14,6 +14,9 @@ class Level {
   var mBall : SKShapeNode!
   var mBlock : SKShapeNode!
   var mGoal : SKShapeNode!
+  var mPath : SKShapeNode!
+  
+  var mPathPoints : [CGPoint] = []
   
   //----------------------------------------------------------------------------
   //----------------------------------------------------------------------------
@@ -78,5 +81,19 @@ class Level {
     mGoal.physicsBody?.contactTestBitMask = 0b0001
     
     mGoal.position = mLevelOptions.mGoalOptions.mStartPosition
+  }
+  
+  //----------------------------------------------------------------------------
+  //----------------------------------------------------------------------------
+  func createPath(atPoint pos: CGPoint) {
+    mPathPoints.append(pos)
+    mPath = SKShapeNode.init(
+      splinePoints: &mPathPoints,
+      count: mPathPoints.count)
+    mPath.name = "path"
+    mPath.lineWidth = 2.5
+    mPath.physicsBody = SKPhysicsBody(edgeChainFrom: mPath.path!)
+    mPath.physicsBody?.isDynamic = false
+    mPath.physicsBody?.contactTestBitMask = 0b0001
   }
 }

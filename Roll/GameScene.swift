@@ -11,10 +11,7 @@ import GameplayKit
 
 class GameScene: SKScene, SKPhysicsContactDelegate {
   
-  var mPath : SKShapeNode!
   var mDeleteTheseObjects : [SKShapeNode] = []
-  
-  var mPathPoints : [CGPoint] = []
   
   var mTripleTapped = false
   
@@ -57,7 +54,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
   func touchDown(atPoint pos : CGPoint) {
     if mGameState != .mGoal {
       mGameState = .mPlaying
-      mPathPoints = []
+      mLevel.mPathPoints = []
       createPath(atPoint: pos)
     }
   }
@@ -181,7 +178,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
   func setLevel(to levelNum: Int) {
     mGameState = .mNew
     mLevel.mGoal?.fillColor = .black
-    mPath?.removeFromParent()
+    mLevel.mPath?.removeFromParent()
     mLevelNum = levelNum // set label
     
     switch levelNum {
@@ -227,7 +224,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
   func hitGoal() {
     mGameState = .mGoal
     mLevel.mGoal.removeFromParent()
-    mPath.removeFromParent()
+    mLevel.mPath.removeFromParent()
     
     throwSparks(with: 75)
     
@@ -235,24 +232,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(2), execute: {
       self.nextLevel()
     })
-  }
-  
-  //----------------------------------------------------------------------------
-  //----------------------------------------------------------------------------
-  func createPath(atPoint pos : CGPoint) {
-    mPath?.removeFromParent()
-    mPathPoints.append(pos)
-    mPath = SKShapeNode.init(
-      splinePoints: &mPathPoints,
-      count: mPathPoints.count)
-    mPath.name = "path"
-    mPath.lineWidth = 2.5
-    mPath.physicsBody = SKPhysicsBody(edgeChainFrom: mPath.path!)
-    mPath.physicsBody?.isDynamic = false
-    mPath.physicsBody?.contactTestBitMask = 0b0001
-    
-    mDeleteTheseObjects.append(mPath)
-    addChild(mPath)
   }
   
   //----------------------------------------------------------------------------
@@ -277,6 +256,15 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     mLevel.createGoal(size: size)
     mDeleteTheseObjects.append(mLevel.mGoal)
     addChild(mLevel.mGoal)
+  }
+  
+  //----------------------------------------------------------------------------
+  //----------------------------------------------------------------------------
+  func createPath(atPoint pos: CGPoint) {
+    mLevel.mPath?.removeFromParent()
+    mLevel.createPath(atPoint: pos)
+    mDeleteTheseObjects.append(mLevel.mPath)
+    addChild(mLevel.mPath)
   }
   
   //----------------------------------------------------------------------------
