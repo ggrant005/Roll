@@ -26,6 +26,7 @@
 		37DE752F2055FB400023BEF5 /* BlockMovement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37DE752E2055FB400023BEF5 /* BlockMovement.swift */; };
 		37DE7531205600750023BEF5 /* Movement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37DE7530205600750023BEF5 /* Movement.swift */; };
 		37DE7533205D965F0023BEF5 /* Level4.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37DE7532205D965F0023BEF5 /* Level4.swift */; };
+		37DE753520600D0C0023BEF5 /* GameState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37DE753420600D0C0023BEF5 /* GameState.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -50,6 +51,7 @@
 		37DE752E2055FB400023BEF5 /* BlockMovement.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlockMovement.swift; sourceTree = "<group>"; };
 		37DE7530205600750023BEF5 /* Movement.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Movement.swift; sourceTree = "<group>"; };
 		37DE7532205D965F0023BEF5 /* Level4.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Level4.swift; sourceTree = "<group>"; };
+		37DE753420600D0C0023BEF5 /* GameState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameState.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -118,6 +120,7 @@
 				37C169F02002C32C0051EEE3 /* Assets.xcassets */,
 				37C169F22002C32C0051EEE3 /* LaunchScreen.storyboard */,
 				37C169ED2002C32C0051EEE3 /* Main.storyboard */,
+				37DE753420600D0C0023BEF5 /* GameState.swift */,
 			);
 			path = Roll;
 			sourceTree = "<group>";
@@ -209,6 +212,7 @@
 				37BC6A452055B539007987EF /* GoalOptions.swift in Sources */,
 				37C169EC2002C32C0051EEE3 /* GameViewController.swift in Sources */,
 				37BC6A3F2055B273007987EF /* LevelOptions.swift in Sources */,
+				37DE753520600D0C0023BEF5 /* GameState.swift in Sources */,
 				37BC6A432055B443007987EF /* BlockOptions.swift in Sources */,
 				37C169E42002C32C0051EEE3 /* AppDelegate.swift in Sources */,
 			);

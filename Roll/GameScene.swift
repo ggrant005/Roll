@@ -9,12 +9,6 @@
 import SpriteKit
 import GameplayKit
 
-enum GameState {
-  case mNew
-  case mPlaying
-  case mGoal
-}
-
 class GameScene: SKScene, SKPhysicsContactDelegate {
   
   var mBall : SKShapeNode!
