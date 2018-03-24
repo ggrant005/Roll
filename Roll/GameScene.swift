@@ -11,7 +11,6 @@ import GameplayKit
 
 class GameScene: SKScene, SKPhysicsContactDelegate {
   
-  var mBall : SKShapeNode!
   var mPath : SKShapeNode!
   var mBlock : SKShapeNode!
   var mGoal : SKShapeNode!
@@ -85,7 +84,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     else {
       if mGameState != .mGoal {
         createPath(atPoint: pos)
-        mBall?.physicsBody?.isDynamic = true // release ball
+        mLevel.mBall?.physicsBody?.isDynamic = true // release ball
       }
     }
   }
@@ -121,9 +120,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     // auto reset when ball drops offscreen
     if mGameState == .mPlaying {
-      if mBall.position.x > 0.6 * size.width ||
-        mBall.position.x < -0.6 * size.width ||
-        mBall.position.y < -0.75 * size.height {
+      if
+        mLevel.mBall.position.x > 0.6 * size.width ||
+        mLevel.mBall.position.x < -0.6 * size.width ||
+        mLevel.mBall.position.y < -0.75 * size.height {
           resetLevel()
       }
     }
@@ -168,7 +168,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
   //----------------------------------------------------------------------------
   //----------------------------------------------------------------------------
   func createObjects(atLevel level: Int) {
-    createBall(atLevel: level)
+    createBall()
     createBlock(atLevel: level)
     createGoal(atLevel: level)
   }
@@ -262,21 +262,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
   
   //----------------------------------------------------------------------------
   //----------------------------------------------------------------------------
-  func createBall(atLevel level: Int) {
-    let w = (size.width + size.height) * 0.01
-    mBall = SKShapeNode.init(circleOfRadius: CGFloat(w))
-    mBall.name = "ball"
-    mBall.lineWidth = 2.5
-    mBall.physicsBody = SKPhysicsBody(circleOfRadius: CGFloat(w))
-    mBall.physicsBody?.restitution = 0.75
-    mBall.physicsBody?.isDynamic = false
-    mBall.physicsBody?.contactTestBitMask = 0b0001
-    
-    mBall.position = mLevel.mLevelOptions.mBallOptions.mStartPosition
-    mBall.physicsBody?.isDynamic = mLevel.mLevelOptions.mBallOptions.mIsDynamic
-    
-    mDeleteTheseObjects.append(mBall)
-    addChild(mBall)
+  func createBall() {
+    mDeleteTheseObjects.append(mLevel.mBall)
+    addChild(mLevel.mBall)
   }
   
   //----------------------------------------------------------------------------
@@ -324,7 +312,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     mGoal.strokeColor = .red
     mGoal.lineWidth = 2.5
     mGoal.physicsBody = SKPhysicsBody(circleOfRadius: CGFloat(w/2))
-    mBall.physicsBody?.restitution = 0.75
+    mGoal.physicsBody?.restitution = 0.75
     mGoal.physicsBody?.isDynamic = false
     mGoal.physicsBody?.contactTestBitMask = 0b0001
     
