@@ -201,8 +201,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
   //----------------------------------------------------------------------------
   func nextLevel() {
     mLevelNum += 1
-    destroyObjects()
-    setLevel(to: mLevelNum)
+    resetLevel()
   }
   
   //----------------------------------------------------------------------------
