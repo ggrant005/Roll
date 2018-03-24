@@ -116,7 +116,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         mLevel.mBall.position.x > 0.6 * size.width ||
         mLevel.mBall.position.x < -0.6 * size.width ||
         mLevel.mBall.position.y < -0.75 * size.height {
-          resetLevel()
+          resetLevel(to: mLevelNum)
       }
     }
   }
@@ -136,7 +136,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
   @objc func tripleTapped(_ sender:UITapGestureRecognizer) {
     if mGameState != .mGoal {
       mTripleTapped = true
-      resetGame()
+      resetLevel(to: 1)
     }
   }
   
@@ -201,21 +201,14 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
   //----------------------------------------------------------------------------
   func nextLevel() {
     mLevelNum += 1
-    resetLevel()
+    resetLevel(to: mLevelNum)
   }
   
   //----------------------------------------------------------------------------
   //----------------------------------------------------------------------------
-  func resetLevel() {
+  func resetLevel(to level: Int) {
     destroyObjects()
-    setLevel(to: mLevelNum)
-  }
-  
-  //----------------------------------------------------------------------------
-  //----------------------------------------------------------------------------
-  func resetGame() {
-    destroyObjects()
-    setLevel(to: 1)
+    setLevel(to: level)
   }
   
   //----------------------------------------------------------------------------
