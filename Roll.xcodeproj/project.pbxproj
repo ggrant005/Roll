@@ -68,6 +68,7 @@
 		37BC6A3B2055AED4007987EF /* Levels */ = {
 			isa = PBXGroup;
 			children = (
+				37BC6A4C2055C5DC007987EF /* Level.swift */,
 				37BC6A3C2055B071007987EF /* Level1.swift */,
 				37BC6A482055C2CD007987EF /* Level2.swift */,
 				37BC6A4A2055C459007987EF /* Level3.swift */,
@@ -114,7 +115,6 @@
 				37C169E32002C32C0051EEE3 /* AppDelegate.swift */,
 				37DE752E2055FB400023BEF5 /* BlockMovement.swift */,
 				37DE7530205600750023BEF5 /* Movement.swift */,
-				37BC6A4C2055C5DC007987EF /* Level.swift */,
 				37C169E92002C32C0051EEE3 /* GameScene.swift */,
 				37C169EB2002C32C0051EEE3 /* GameViewController.swift */,
 				37C169F02002C32C0051EEE3 /* Assets.xcassets */,
