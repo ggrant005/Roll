@@ -263,6 +263,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
   //----------------------------------------------------------------------------
   //----------------------------------------------------------------------------
   func createBall() {
+    mLevel.createBall(size: size)
     mDeleteTheseObjects.append(mLevel.mBall)
     addChild(mLevel.mBall)
   }
