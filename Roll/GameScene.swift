@@ -199,13 +199,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
   
   //----------------------------------------------------------------------------
   //----------------------------------------------------------------------------
-  func nextLevel() {
-    mLevelNum += 1
-    resetLevel(to: mLevelNum)
-  }
-  
-  //----------------------------------------------------------------------------
-  //----------------------------------------------------------------------------
   func resetLevel(to level: Int) {
     destroyObjects()
     setLevel(to: level)
@@ -222,7 +215,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     // next level
     DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(2), execute: {
-      self.nextLevel()
+      self.resetLevel(to: self.mLevelNum + 1)
     })
   }
   
