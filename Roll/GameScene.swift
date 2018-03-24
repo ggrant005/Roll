@@ -12,8 +12,6 @@ import GameplayKit
 class GameScene: SKScene, SKPhysicsContactDelegate {
   
   var mPath : SKShapeNode!
-  var mBlock : SKShapeNode!
-  var mGoal : SKShapeNode!
   var mSparks : [SKShapeNode] = []
   var mDeleteTheseObjects : [SKShapeNode] = []
   
@@ -133,7 +131,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
   //----------------------------------------------------------------------------
   func didBegin(_ contact: SKPhysicsContact) {
     if mGameState == .mPlaying {
-      if contact.bodyA.node == mGoal || contact.bodyB.node == mGoal {
+      if contact.bodyA.node == mLevel.mGoal || contact.bodyB.node == mLevel.mGoal {
         hitGoal()
       }
     }
@@ -169,8 +167,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
   //----------------------------------------------------------------------------
   func createObjects(atLevel level: Int) {
     createBall()
-    createBlock(atLevel: level)
-    createGoal(atLevel: level)
+    createBlock()
+    createGoal()
   }
   
   //----------------------------------------------------------------------------
@@ -185,7 +183,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
   //----------------------------------------------------------------------------
   func setLevel(to levelNum: Int) {
     mGameState = .mNew
-    mGoal?.fillColor = .black
+    mLevel.mGoal?.fillColor = .black
     mPath?.removeFromParent()
     mLevelNum = levelNum // set label
     
@@ -231,7 +229,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
   //----------------------------------------------------------------------------
   func hitGoal() {
     mGameState = .mGoal
-    mGoal.removeFromParent()
+    mLevel.mGoal.removeFromParent()
     mPath.removeFromParent()
     
     throwSparks()
@@ -270,57 +268,18 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
   
   //----------------------------------------------------------------------------
   //----------------------------------------------------------------------------
-  func createBlock(atLevel level: Int) {
-    let w = (size.width + size.height) * 0.01
-    let blockSize = CGSize(width: 2 * w, height: 4 * w)
-    mBlock = SKShapeNode.init(rectOf: blockSize)
-    mBlock.name = "block"
-    mBlock.lineWidth = 2.5
-    mBlock.physicsBody = SKPhysicsBody(rectangleOf: blockSize)
-    mBlock.physicsBody?.isDynamic = false
-    mBlock.physicsBody?.contactTestBitMask = 0b0001
-    
-    mBlock.position = mLevel.mLevelOptions.mBlockOptions.mStartPosition
-    
-    switch mLevel.mLevelOptions.mBlockOptions.mMovement {
-    case .mRotate(let angle, let duration):
-      BlockMovement.loopRotate(
-        shapeNode: mBlock,
-        byAngle: angle,
-        duration: duration)
-    case .mSpin(let duration):
-      BlockMovement.loopSpin(
-        shapeNode: mBlock,
-        duration: duration)
-    case .mTranslate(let xTrans, let yTrans, let duration):
-      BlockMovement.loopTranslate(
-        shapeNode: mBlock,
-        xTranslation: xTrans,
-        yTranslation: yTrans,
-        duration: duration)
-    }
-    
-    mDeleteTheseObjects.append(mBlock)
-    addChild(mBlock)
+  func createBlock() {
+    mLevel.createBlock(size: size)
+    mDeleteTheseObjects.append(mLevel.mBlock)
+    addChild(mLevel.mBlock)
   }
   
   //----------------------------------------------------------------------------
   //----------------------------------------------------------------------------
-  func createGoal(atLevel level: Int) {
-    let w = (size.width + size.height) * 0.01
-    mGoal = SKShapeNode.init(circleOfRadius: CGFloat(w/2))
-    mGoal.name = "goal"
-    mGoal.strokeColor = .red
-    mGoal.lineWidth = 2.5
-    mGoal.physicsBody = SKPhysicsBody(circleOfRadius: CGFloat(w/2))
-    mGoal.physicsBody?.restitution = 0.75
-    mGoal.physicsBody?.isDynamic = false
-    mGoal.physicsBody?.contactTestBitMask = 0b0001
-    
-    mGoal.position = mLevel.mLevelOptions.mGoalOptions.mStartPosition
-    
-    mDeleteTheseObjects.append(mGoal)
-    addChild(mGoal)
+  func createGoal() {
+    mLevel.createGoal(size: size)
+    mDeleteTheseObjects.append(mLevel.mGoal)
+    addChild(mLevel.mGoal)
   }
   
   //----------------------------------------------------------------------------
@@ -331,7 +290,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
       mSparks.append(SKShapeNode(circleOfRadius: radius))
       mSparks[i].name = "spark"
       mSparks[i].lineWidth = 2.5
-      mSparks[i].position = mGoal.position
+      mSparks[i].position = mLevel.mGoal.position
       mSparks[i].physicsBody = SKPhysicsBody(circleOfRadius: radius)
       
       mDeleteTheseObjects.append(mSparks[i])
