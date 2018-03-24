@@ -221,26 +221,30 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
   
   //----------------------------------------------------------------------------
   //----------------------------------------------------------------------------
+  func addObject(_ shapeNode: SKShapeNode) {
+    mDeleteTheseObjects.append(shapeNode)
+    addChild(shapeNode)
+  }
+  
+  //----------------------------------------------------------------------------
+  //----------------------------------------------------------------------------
   func createBall() {
     mLevel.createBall(size: size)
-    mDeleteTheseObjects.append(mLevel.mBall)
-    addChild(mLevel.mBall)
+    addObject(mLevel.mBall)
   }
   
   //----------------------------------------------------------------------------
   //----------------------------------------------------------------------------
   func createBlock() {
     mLevel.createBlock(size: size)
-    mDeleteTheseObjects.append(mLevel.mBlock)
-    addChild(mLevel.mBlock)
+    addObject(mLevel.mBlock)
   }
   
   //----------------------------------------------------------------------------
   //----------------------------------------------------------------------------
   func createGoal() {
     mLevel.createGoal(size: size)
-    mDeleteTheseObjects.append(mLevel.mGoal)
-    addChild(mLevel.mGoal)
+    addObject(mLevel.mGoal)
   }
   
   //----------------------------------------------------------------------------
@@ -248,8 +252,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
   func createPath(atPoint pos: CGPoint) {
     mLevel.mPath?.removeFromParent()
     mLevel.createPath(atPoint: pos)
-    mDeleteTheseObjects.append(mLevel.mPath)
-    addChild(mLevel.mPath)
+    addObject(mLevel.mPath)
   }
   
   //----------------------------------------------------------------------------
