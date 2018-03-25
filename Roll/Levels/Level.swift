@@ -9,6 +9,8 @@
 import SpriteKit
 
 class Level {
+  var mSize = CGSize()
+  
   var mLevelOptions = LevelOptions()
   
   var mBall : SKShapeNode!
@@ -20,8 +22,8 @@ class Level {
   
   //----------------------------------------------------------------------------
   //----------------------------------------------------------------------------
-  func createBall(size: CGSize) {
-    let w = (size.width + size.height) * 0.01
+  func createBall() {
+    let w = (mSize.width + mSize.height) * 0.01
     mBall = SKShapeNode.init(circleOfRadius: CGFloat(w))
     mBall.name = "ball"
     mBall.lineWidth = 2.5
@@ -36,8 +38,8 @@ class Level {
   
   //----------------------------------------------------------------------------
   //----------------------------------------------------------------------------
-  func createBlock(size: CGSize) {
-    let w = (size.width + size.height) * 0.01
+  func createBlock() {
+    let w = (mSize.width + mSize.height) * 0.01
     let blockSize = CGSize(width: 2 * w, height: 4 * w)
     mBlock = SKShapeNode.init(rectOf: blockSize)
     mBlock.name = "block"
@@ -69,8 +71,8 @@ class Level {
   
   //----------------------------------------------------------------------------
   //----------------------------------------------------------------------------
-  func createGoal(size: CGSize) {
-    let w = (size.width + size.height) * 0.01
+  func createGoal() {
+    let w = (mSize.width + mSize.height) * 0.01
     mGoal = SKShapeNode.init(circleOfRadius: CGFloat(w/2))
     mGoal.name = "goal"
     mGoal.strokeColor = .red
