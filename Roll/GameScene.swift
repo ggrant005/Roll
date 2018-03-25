@@ -73,11 +73,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     if mTripleTapped {
       mTripleTapped = false
     }
-    else {
-      if mGameState != .mGoal {
-        createPath(atPoint: pos)
-        mLevel.mBall?.physicsBody?.isDynamic = true // release ball
-      }
+    else if mGameState != .mGoal {
+      createPath(atPoint: pos)
+      mLevel.mBall?.physicsBody?.isDynamic = true // release ball
     }
   }
   
