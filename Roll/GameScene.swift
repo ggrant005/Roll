@@ -176,20 +176,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
   func setLevel(to levelNum: Int) {
     mGameState = .mNew
     mLevelNum = levelNum // set label
-    
-    switch levelNum {
-    case 1:
-      mLevel = Level1()
-    case 2:
-      mLevel = Level2()
-    case 3:
-      mLevel = Level3()
-    case 4:
-      mLevel = Level4()
-    default:
-      mLevel = Level1()
-    }
-    
+    mLevel = getLevel(levelNum)
     createObjects()
   }
   
