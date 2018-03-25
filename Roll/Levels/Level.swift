@@ -9,7 +9,9 @@
 import SpriteKit
 
 class Level {
-  var mLevelOptions = LevelOptions()
+  var mBallOptions = BallOptions()
+  var mBlockOptions = BlockOptions()
+  var mGoalOptions = GoalOptions()
   
   var mBall : SKShapeNode!
   var mBlock : SKShapeNode!
@@ -30,8 +32,8 @@ class Level {
     mBall.physicsBody?.isDynamic = false
     mBall.physicsBody?.contactTestBitMask = 0b0001
     
-    mBall.position = mLevelOptions.mBallOptions.mStartPosition
-    mBall.physicsBody?.isDynamic = mLevelOptions.mBallOptions.mIsDynamic
+    mBall.position = mBallOptions.mStartPosition
+    mBall.physicsBody?.isDynamic = mBallOptions.mIsDynamic
   }
   
   //----------------------------------------------------------------------------
@@ -46,9 +48,9 @@ class Level {
     mBlock.physicsBody?.isDynamic = false
     mBlock.physicsBody?.contactTestBitMask = 0b0001
     
-    mBlock.position = mLevelOptions.mBlockOptions.mStartPosition
+    mBlock.position = mBlockOptions.mStartPosition
     
-    switch mLevelOptions.mBlockOptions.mMovement {
+    switch mBlockOptions.mMovement {
     case .mRotate(let angle, let duration):
       BlockMovement.loopRotate(
         shapeNode: mBlock,
@@ -80,7 +82,7 @@ class Level {
     mGoal.physicsBody?.isDynamic = false
     mGoal.physicsBody?.contactTestBitMask = 0b0001
     
-    mGoal.position = mLevelOptions.mGoalOptions.mStartPosition
+    mGoal.position = mGoalOptions.mStartPosition
   }
   
   //----------------------------------------------------------------------------

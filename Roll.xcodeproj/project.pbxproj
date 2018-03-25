@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		37BC6A3D2055B071007987EF /* Level1.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37BC6A3C2055B071007987EF /* Level1.swift */; };
-		37BC6A3F2055B273007987EF /* LevelOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37BC6A3E2055B273007987EF /* LevelOptions.swift */; };
 		37BC6A412055B3D1007987EF /* BallOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37BC6A402055B3D1007987EF /* BallOptions.swift */; };
 		37BC6A432055B443007987EF /* BlockOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37BC6A422055B443007987EF /* BlockOptions.swift */; };
 		37BC6A452055B539007987EF /* GoalOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37BC6A442055B539007987EF /* GoalOptions.swift */; };
@@ -31,7 +30,6 @@
 
 /* Begin PBXFileReference section */
 		37BC6A3C2055B071007987EF /* Level1.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Level1.swift; sourceTree = "<group>"; };
-		37BC6A3E2055B273007987EF /* LevelOptions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LevelOptions.swift; sourceTree = "<group>"; };
 		37BC6A402055B3D1007987EF /* BallOptions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BallOptions.swift; sourceTree = "<group>"; };
 		37BC6A422055B443007987EF /* BlockOptions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlockOptions.swift; sourceTree = "<group>"; };
 		37BC6A442055B539007987EF /* GoalOptions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoalOptions.swift; sourceTree = "<group>"; };
@@ -83,7 +81,6 @@
 				37BC6A402055B3D1007987EF /* BallOptions.swift */,
 				37BC6A422055B443007987EF /* BlockOptions.swift */,
 				37BC6A442055B539007987EF /* GoalOptions.swift */,
-				37BC6A3E2055B273007987EF /* LevelOptions.swift */,
 			);
 			path = Options;
 			sourceTree = "<group>";
@@ -211,7 +208,6 @@
 				37C169EA2002C32C0051EEE3 /* GameScene.swift in Sources */,
 				37BC6A452055B539007987EF /* GoalOptions.swift in Sources */,
 				37C169EC2002C32C0051EEE3 /* GameViewController.swift in Sources */,
-				37BC6A3F2055B273007987EF /* LevelOptions.swift in Sources */,
 				37DE753520600D0C0023BEF5 /* GameState.swift in Sources */,
 				37BC6A432055B443007987EF /* BlockOptions.swift in Sources */,
 				37C169E42002C32C0051EEE3 /* AppDelegate.swift in Sources */,

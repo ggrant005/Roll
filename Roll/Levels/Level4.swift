@@ -11,15 +11,15 @@ import SpriteKit
 class Level4 : Level {
   override init() {
     super.init()
-    mLevelOptions.mBallOptions = BallOptions()
-    mLevelOptions.mBallOptions.mIsDynamic = false
-    mLevelOptions.mBallOptions.mStartPosition = CGPoint(x: -200, y: 300)
+    mBallOptions = BallOptions()
+    mBallOptions.mIsDynamic = false
+    mBallOptions.mStartPosition = CGPoint(x: -200, y: 300)
     
-    mLevelOptions.mBlockOptions = BlockOptions()
-    mLevelOptions.mBlockOptions.mStartPosition = CGPoint(x: 50, y: -300)
-    mLevelOptions.mBlockOptions.mMovement = .mSpin(0.5)
+    mBlockOptions = BlockOptions()
+    mBlockOptions.mStartPosition = CGPoint(x: 50, y: -300)
+    mBlockOptions.mMovement = .mSpin(0.5)
     
-    mLevelOptions.mGoalOptions = GoalOptions()
-    mLevelOptions.mGoalOptions.mStartPosition = CGPoint(x: 100, y: -350)
+    mGoalOptions = GoalOptions()
+    mGoalOptions.mStartPosition = CGPoint(x: 100, y: -350)
   }
 }
