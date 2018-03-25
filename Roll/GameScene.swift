@@ -11,7 +11,7 @@ import GameplayKit
 
 class GameScene: SKScene, SKPhysicsContactDelegate {
   
-  var mDeleteTheseObjects : [SKShapeNode] = []
+  var mDeleteTheseObjects: [SKShapeNode] = []
   
   var mTripleTapped = false
   
@@ -21,9 +21,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
   
   var mLevel = Level()
   var mLevelLabel: SKLabelNode!
-  var mLevelNum: Int = 1 {
+  var mLevelNum = (1, 1) {
     didSet {
-      mLevelLabel.text = "\(mLevelNum)"
+      mLevelLabel.text = "\(mLevelNum.0):\(mLevelNum.1)"
     }
   }
   
@@ -51,7 +51,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
   
   //----------------------------------------------------------------------------
   //----------------------------------------------------------------------------
-  func touchDown(atPoint pos : CGPoint) {
+  func touchDown(atPoint pos: CGPoint) {
     if mGameState != .mGoal {
       mGameState = .mPlaying
       mLevel.mPathPoints = []
@@ -61,7 +61,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
   
   //----------------------------------------------------------------------------
   //----------------------------------------------------------------------------
-  func touchMoved(toPoint pos : CGPoint) {
+  func touchMoved(toPoint pos: CGPoint) {
     if mGameState != .mGoal {
       createPath(atPoint: pos)
     }
@@ -69,7 +69,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
   
   //----------------------------------------------------------------------------
   //----------------------------------------------------------------------------
-  func touchUp(atPoint pos : CGPoint) {
+  func touchUp(atPoint pos: CGPoint) {
     if mTripleTapped {
       mTripleTapped = false
     }
@@ -134,7 +134,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
   @objc func tripleTapped(_ sender:UITapGestureRecognizer) {
     if mGameState != .mGoal {
       mTripleTapped = true
-      resetLevel(to: 1)
+      resetLevel(to: (1, 1))
     }
   }
   
@@ -173,7 +173,22 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
   
   //----------------------------------------------------------------------------
   //----------------------------------------------------------------------------
-  func setLevel(to levelNum: Int) {
+  func nextLevel() {
+    // next set
+    if mLevelNum.1 % 2 == 0 {
+      mLevelNum.0 += 1 // increment set
+      mLevelNum.1 = 1 // level 1
+    }
+    else {
+      mLevelNum.1 += 1
+    }
+    
+    resetLevel(to: mLevelNum)
+  }
+  
+  //----------------------------------------------------------------------------
+  //----------------------------------------------------------------------------
+  func setLevel(to levelNum: (Int, Int)) {
     mGameState = .mNew
     mLevelNum = levelNum // set label
     mLevel = getLevel(levelNum)
@@ -182,7 +197,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
   
   //----------------------------------------------------------------------------
   //----------------------------------------------------------------------------
-  func resetLevel(to level: Int) {
+  func resetLevel(to level: (Int, Int)) {
     destroyObjects()
     setLevel(to: level)
   }
@@ -198,7 +213,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     // next level
     DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(2), execute: {
-      self.resetLevel(to: self.mLevelNum + 1)
+      self.nextLevel()
     })
   }
   
