@@ -34,8 +34,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     physicsWorld.gravity = CGVector(dx: 0.0, dy: -5.0)
     physicsWorld.contactDelegate = self
     
-    mLevel.mSize = size
-    
     createSceneContents()
     createLevelLabel()
     setLevel(to: mLevelNum)
@@ -160,9 +158,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
   //----------------------------------------------------------------------------
   //----------------------------------------------------------------------------
   func createObjects() {
-    createBall()
-    createBlock()
-    createGoal()
+    createBall(with: size)
+    createBlock(with: size)
+    createGoal(with: size)
   }
   
   //----------------------------------------------------------------------------
@@ -228,22 +226,22 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
   
   //----------------------------------------------------------------------------
   //----------------------------------------------------------------------------
-  func createBall() {
-    mLevel.createBall()
+  func createBall(with size: CGSize) {
+    mLevel.createBall(with: size)
     addObject(mLevel.mBall)
   }
   
   //----------------------------------------------------------------------------
   //----------------------------------------------------------------------------
-  func createBlock() {
-    mLevel.createBlock()
+  func createBlock(with size: CGSize) {
+    mLevel.createBlock(with: size)
     addObject(mLevel.mBlock)
   }
   
   //----------------------------------------------------------------------------
   //----------------------------------------------------------------------------
-  func createGoal() {
-    mLevel.createGoal()
+  func createGoal(with size: CGSize) {
+    mLevel.createGoal(with: size)
     addObject(mLevel.mGoal)
   }
   
