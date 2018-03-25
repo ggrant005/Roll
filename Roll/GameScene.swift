@@ -175,8 +175,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
   //----------------------------------------------------------------------------
   func setLevel(to levelNum: Int) {
     mGameState = .mNew
-    mLevel.mGoal?.fillColor = .black
-    mLevel.mPath?.removeFromParent()
     mLevelNum = levelNum // set label
     
     switch levelNum {
