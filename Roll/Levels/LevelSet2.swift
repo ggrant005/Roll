@@ -16,6 +16,7 @@ class LevelSet2 {
   class Level1: Level {
     override init() {
       super.init()
+      
       mBallOptions = BallOptions()
       mBallOptions.mIsDynamic = false
       mBallOptions.mStartPosition = CGPoint(x: -200, y: 300)
@@ -35,6 +36,7 @@ class LevelSet2 {
   class Level2: Level {
     override init() {
       super.init()
+      
       mBallOptions = BallOptions()
       mBallOptions.mIsDynamic = false
       mBallOptions.mStartPosition = CGPoint(x: -200, y: 300)
