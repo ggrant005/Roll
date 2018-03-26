@@ -180,7 +180,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
       mLevelNum.1 = 1 // level 1
     }
     else {
-      mLevelNum.1 += 1
+      mLevelNum.1 += 1 // increment level
     }
     
     resetLevel(to: mLevelNum)
@@ -235,7 +235,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
   //----------------------------------------------------------------------------
   func createBlock(with size: CGSize) {
     mLevel.createBlock(with: size)
-    addObject(mLevel.mBlock)
+    for block in mLevel.mBlocks { addObject(block) }
   }
   
   //----------------------------------------------------------------------------

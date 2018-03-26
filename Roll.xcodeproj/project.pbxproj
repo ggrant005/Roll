@@ -22,6 +22,7 @@
 		37C50AB92067EEEB00D64DAC /* LevelUtilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37C50AB82067EEEB00D64DAC /* LevelUtilities.swift */; };
 		37C50AC12067F6FC00D64DAC /* LevelSet1.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37C50AC02067F6FC00D64DAC /* LevelSet1.swift */; };
 		37C50AC7206804E500D64DAC /* LevelSet2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37C50AC6206804E500D64DAC /* LevelSet2.swift */; };
+		37C50ACD206937C000D64DAC /* LevelSet3.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37C50ACC206937C000D64DAC /* LevelSet3.swift */; };
 		37DE752F2055FB400023BEF5 /* BlockMovement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37DE752E2055FB400023BEF5 /* BlockMovement.swift */; };
 		37DE7531205600750023BEF5 /* Movement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37DE7530205600750023BEF5 /* Movement.swift */; };
 		37DE753520600D0C0023BEF5 /* GameState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37DE753420600D0C0023BEF5 /* GameState.swift */; };
@@ -45,6 +46,7 @@
 		37C50AB82067EEEB00D64DAC /* LevelUtilities.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LevelUtilities.swift; sourceTree = "<group>"; };
 		37C50AC02067F6FC00D64DAC /* LevelSet1.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LevelSet1.swift; sourceTree = "<group>"; };
 		37C50AC6206804E500D64DAC /* LevelSet2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LevelSet2.swift; sourceTree = "<group>"; };
+		37C50ACC206937C000D64DAC /* LevelSet3.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LevelSet3.swift; sourceTree = "<group>"; };
 		37DE752E2055FB400023BEF5 /* BlockMovement.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlockMovement.swift; sourceTree = "<group>"; };
 		37DE7530205600750023BEF5 /* Movement.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Movement.swift; sourceTree = "<group>"; };
 		37DE753420600D0C0023BEF5 /* GameState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameState.swift; sourceTree = "<group>"; };
@@ -67,6 +69,7 @@
 				37BC6A4C2055C5DC007987EF /* Level.swift */,
 				37C50AC02067F6FC00D64DAC /* LevelSet1.swift */,
 				37C50AC6206804E500D64DAC /* LevelSet2.swift */,
+				37C50ACC206937C000D64DAC /* LevelSet3.swift */,
 				37C50AB82067EEEB00D64DAC /* LevelUtilities.swift */,
 			);
 			path = Levels;
@@ -197,6 +200,7 @@
 				37DE752F2055FB400023BEF5 /* BlockMovement.swift in Sources */,
 				37DE7531205600750023BEF5 /* Movement.swift in Sources */,
 				37C50AC12067F6FC00D64DAC /* LevelSet1.swift in Sources */,
+				37C50ACD206937C000D64DAC /* LevelSet3.swift in Sources */,
 				37BC6A4D2055C5DC007987EF /* Level.swift in Sources */,
 				37BC6A412055B3D1007987EF /* BallOptions.swift in Sources */,
 				37C169EA2002C32C0051EEE3 /* GameScene.swift in Sources */,

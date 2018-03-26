@@ -10,11 +10,11 @@ import SpriteKit
 
 class Level {
   var mBallOptions = BallOptions()
-  var mBlockOptions = BlockOptions()
+  var mBlockOptions : [BlockOptions] = []
   var mGoalOptions = GoalOptions()
   
   var mBall : SKShapeNode!
-  var mBlock : SKShapeNode!
+  var mBlocks : [SKShapeNode] = []
   var mGoal : SKShapeNode!
   var mPath : SKShapeNode!
   
@@ -41,31 +41,35 @@ class Level {
   func createBlock(with size: CGSize) {
     let w = (size.width + size.height) * 0.01
     let blockSize = CGSize(width: 2 * w, height: 4 * w)
-    mBlock = SKShapeNode.init(rectOf: blockSize)
-    mBlock.name = "block"
-    mBlock.lineWidth = 2.5
-    mBlock.physicsBody = SKPhysicsBody(rectangleOf: blockSize)
-    mBlock.physicsBody?.isDynamic = false
-    mBlock.physicsBody?.contactTestBitMask = 0b0001
     
-    mBlock.position = mBlockOptions.mStartPosition
-    
-    switch mBlockOptions.mMovement {
-    case .mRotate(let angle, let duration):
-      BlockMovement.loopRotate(
-        shapeNode: mBlock,
-        byAngle: angle,
-        duration: duration)
-    case .mSpin(let duration):
-      BlockMovement.loopSpin(
-        shapeNode: mBlock,
-        duration: duration)
-    case .mTranslate(let xTrans, let yTrans, let duration):
-      BlockMovement.loopTranslate(
-        shapeNode: mBlock,
-        xTranslation: xTrans,
-        yTranslation: yTrans,
-        duration: duration)
+    for options in mBlockOptions {
+      let block = SKShapeNode.init(rectOf: blockSize)
+      block.name = "block"
+      block.lineWidth = 2.5
+      block.position = options.mStartPosition
+      block.physicsBody = SKPhysicsBody(rectangleOf: blockSize)
+      block.physicsBody?.isDynamic = false
+      block.physicsBody?.contactTestBitMask = 0b0001
+      
+      switch options.mMovement {
+      case .mRotate(let angle, let duration):
+        BlockMovement.loopRotate(
+          shapeNode: block,
+          byAngle: angle,
+          duration: duration)
+      case .mSpin(let duration):
+        BlockMovement.loopSpin(
+          shapeNode: block,
+          duration: duration)
+      case .mTranslate(let xTrans, let yTrans, let duration):
+        BlockMovement.loopTranslate(
+          shapeNode: block,
+          xTranslation: xTrans,
+          yTranslation: yTrans,
+          duration: duration)
+      }
+      
+      mBlocks.append(block)
     }
   }
   

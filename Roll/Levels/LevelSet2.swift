@@ -20,9 +20,10 @@ class LevelSet2 {
       mBallOptions.mIsDynamic = false
       mBallOptions.mStartPosition = CGPoint(x: -200, y: 300)
       
-      mBlockOptions = BlockOptions()
-      mBlockOptions.mStartPosition = CGPoint(x: 50, y: -300)
-      mBlockOptions.mMovement = .mRotate(.pi, 0.2)
+      var options = BlockOptions()
+      options.mStartPosition = CGPoint(x: 50, y: -300)
+      options.mMovement = .mRotate(.pi, 0.2)
+      mBlockOptions.append(options)
       
       mGoalOptions = GoalOptions()
       mGoalOptions.mStartPosition = CGPoint(x: 100, y: -350)
@@ -38,9 +39,10 @@ class LevelSet2 {
       mBallOptions.mIsDynamic = false
       mBallOptions.mStartPosition = CGPoint(x: -200, y: 300)
       
-      mBlockOptions = BlockOptions()
-      mBlockOptions.mStartPosition = CGPoint(x: 50, y: -300)
-      mBlockOptions.mMovement = .mSpin(0.5)
+      var options = BlockOptions()
+      options.mStartPosition = CGPoint(x: 50, y: -300)
+      options.mMovement = .mSpin(0.5)
+      mBlockOptions.append(options)
       
       mGoalOptions = GoalOptions()
       mGoalOptions.mStartPosition = CGPoint(x: 100, y: -350)
