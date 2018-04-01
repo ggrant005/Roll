@@ -11,8 +11,7 @@ import SpriteKit
 
 class LevelSet3 {
   
-  //----------------------------------------------------------------------------
-  //----------------------------------------------------------------------------
+  //**
   class Level1: Level {
     override init() {
       super.init()
@@ -34,20 +33,23 @@ class LevelSet3 {
     }
   }
   
-  //----------------------------------------------------------------------------
-  //----------------------------------------------------------------------------
+  //**
   class Level2: Level {
     override init() {
       super.init()
       
       mBallOptions = BallOptions()
       mBallOptions.mIsDynamic = false
-      mBallOptions.mStartPosition = CGPoint(x: -200, y: 300)
+      mBallOptions.mStartPosition = CGPoint(x: -200, y: 200)
       
-      var options = BlockOptions()
-      options.mStartPosition = CGPoint(x: 50, y: -300)
-      options.mMovement = .mSpin(0.5)
-      mBlockOptions.append(options)
+      for i in 0 ..< 5 {
+        for j in 0 ..< 5 {
+          var options = BlockOptions()
+          options.mStartPosition = CGPoint(x: j * 50 - 250, y: i * 50 - 250)
+          options.mMovement = .mSpin(0.5)
+          mBlockOptions.append(options)
+        }
+      }
       
       mGoalOptions = GoalOptions()
       mGoalOptions.mStartPosition = CGPoint(x: 100, y: -350)

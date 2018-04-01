@@ -20,8 +20,7 @@ class Level {
   
   var mPathPoints : [CGPoint] = []
   
-  //----------------------------------------------------------------------------
-  //----------------------------------------------------------------------------
+  //**
   func createBall(with size: CGSize) {
     let w = (size.width + size.height) * 0.01
     mBall = SKShapeNode.init(circleOfRadius: CGFloat(w))
@@ -36,8 +35,7 @@ class Level {
     mBall.physicsBody?.isDynamic = mBallOptions.mIsDynamic
   }
   
-  //----------------------------------------------------------------------------
-  //----------------------------------------------------------------------------
+  //**
   func createBlock(with size: CGSize) {
     let w = (size.width + size.height) * 0.01
     let blockSize = CGSize(width: 2 * w, height: 4 * w)
@@ -73,8 +71,7 @@ class Level {
     }
   }
   
-  //----------------------------------------------------------------------------
-  //----------------------------------------------------------------------------
+  //**
   func createGoal(with size: CGSize) {
     let w = (size.width + size.height) * 0.01
     mGoal = SKShapeNode.init(circleOfRadius: CGFloat(w/2))
@@ -89,8 +86,7 @@ class Level {
     mGoal.position = mGoalOptions.mStartPosition
   }
   
-  //----------------------------------------------------------------------------
-  //----------------------------------------------------------------------------
+  //**
   func createPath(atPoint pos: CGPoint) {
     mPathPoints.append(pos)
     mPath = SKShapeNode.init(

@@ -27,8 +27,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
   }
   
-  //----------------------------------------------------------------------------
-  //----------------------------------------------------------------------------
+  //**
   override func sceneDidLoad() {
     // create physics world
     physicsWorld.gravity = CGVector(dx: 0.0, dy: -5.0)
@@ -39,8 +38,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     setLevel(to: mLevelNum)
   }
   
-  //----------------------------------------------------------------------------
-  //----------------------------------------------------------------------------
+  //**
   override func didMove(to view: SKView) {
     self.view!.isMultipleTouchEnabled = false
     
@@ -49,8 +47,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     self.view!.addGestureRecognizer(mTapRec3)
   }
   
-  //----------------------------------------------------------------------------
-  //----------------------------------------------------------------------------
+  //**
   func touchDown(atPoint pos: CGPoint) {
     if mGameState != .mGoal {
       mGameState = .mPlaying
@@ -59,16 +56,14 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
   }
   
-  //----------------------------------------------------------------------------
-  //----------------------------------------------------------------------------
+  //**
   func touchMoved(toPoint pos: CGPoint) {
     if mGameState != .mGoal {
       createPath(atPoint: pos)
     }
   }
   
-  //----------------------------------------------------------------------------
-  //----------------------------------------------------------------------------
+  //**
   func touchUp(atPoint pos: CGPoint) {
     if mTripleTapped {
       mTripleTapped = false
@@ -79,32 +74,27 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
   }
   
-  //----------------------------------------------------------------------------
-  //----------------------------------------------------------------------------
+  //**
   override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
     for t in touches { touchDown(atPoint: t.location(in: self)) }
   }
   
-  //----------------------------------------------------------------------------
-  //----------------------------------------------------------------------------
+  //**
   override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
     for t in touches { touchMoved(toPoint: t.location(in: self)) }
   }
   
-  //----------------------------------------------------------------------------
-  //----------------------------------------------------------------------------
+  //**
   override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
     for t in touches { touchUp(atPoint: t.location(in: self)) }
   }
   
-  //----------------------------------------------------------------------------
-  //----------------------------------------------------------------------------
+  //**
   override func touchesCancelled(_ touches: Set<UITouch>, with event: UIEvent?) {
     for t in touches { touchUp(atPoint: t.location(in: self)) }
   }
   
-  //----------------------------------------------------------------------------
-  //----------------------------------------------------------------------------
+  //**
   override func update(_ currentTime: TimeInterval) {
     // Called before each frame is rendered
     
@@ -119,8 +109,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
   }
   
-  //----------------------------------------------------------------------------
-  //----------------------------------------------------------------------------
+  //**
   func didBegin(_ contact: SKPhysicsContact) {
     if mGameState == .mPlaying {
       if contact.bodyA.node == mLevel.mGoal || contact.bodyB.node == mLevel.mGoal {
@@ -129,8 +118,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
   }
   
-  //----------------------------------------------------------------------------
-  //----------------------------------------------------------------------------
+  //**
   @objc func tripleTapped(_ sender:UITapGestureRecognizer) {
     if mGameState != .mGoal {
       mTripleTapped = true
@@ -138,15 +126,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
   }
   
-  //----------------------------------------------------------------------------
-  //----------------------------------------------------------------------------
+  //**
   func createSceneContents() {
     backgroundColor = .black
     scaleMode = .aspectFit
   }
   
-  //----------------------------------------------------------------------------
-  //----------------------------------------------------------------------------
+  //**
   func createLevelLabel() {
     mLevelLabel = SKLabelNode(fontNamed: "Courier")
     mLevelLabel.text = "\(mLevelNum)"
@@ -155,24 +141,21 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     addChild(mLevelLabel)
   }
   
-  //----------------------------------------------------------------------------
-  //----------------------------------------------------------------------------
+  //**
   func createObjects() {
     createBall(with: size)
     createBlock(with: size)
     createGoal(with: size)
   }
   
-  //----------------------------------------------------------------------------
-  //----------------------------------------------------------------------------
+  //**
   func destroyObjects() {
     for object in mDeleteTheseObjects {
       object.removeFromParent()
     }
   }
   
-  //----------------------------------------------------------------------------
-  //----------------------------------------------------------------------------
+  //**
   func nextLevel() {
     // next set
     if mLevelNum.1 % 2 == 0 {
@@ -186,8 +169,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     resetLevel(to: mLevelNum)
   }
   
-  //----------------------------------------------------------------------------
-  //----------------------------------------------------------------------------
+  //**
   func setLevel(to levelNum: (Int, Int)) {
     mGameState = .mNew
     mLevelNum = levelNum // set label
@@ -195,15 +177,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     createObjects()
   }
   
-  //----------------------------------------------------------------------------
-  //----------------------------------------------------------------------------
+  //**
   func resetLevel(to level: (Int, Int)) {
     destroyObjects()
     setLevel(to: level)
   }
   
-  //----------------------------------------------------------------------------
-  //----------------------------------------------------------------------------
+  //**
   func hitGoal() {
     mGameState = .mGoal
     mLevel.mGoal.removeFromParent()
@@ -217,44 +197,38 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     })
   }
   
-  //----------------------------------------------------------------------------
-  //----------------------------------------------------------------------------
+  //**
   func addObject(_ shapeNode: SKShapeNode) {
     mDeleteTheseObjects.append(shapeNode)
     addChild(shapeNode)
   }
   
-  //----------------------------------------------------------------------------
-  //----------------------------------------------------------------------------
+  //**
   func createBall(with size: CGSize) {
     mLevel.createBall(with: size)
     addObject(mLevel.mBall)
   }
   
-  //----------------------------------------------------------------------------
-  //----------------------------------------------------------------------------
+  //**
   func createBlock(with size: CGSize) {
     mLevel.createBlock(with: size)
     for block in mLevel.mBlocks { addObject(block) }
   }
   
-  //----------------------------------------------------------------------------
-  //----------------------------------------------------------------------------
+  //**
   func createGoal(with size: CGSize) {
     mLevel.createGoal(with: size)
     addObject(mLevel.mGoal)
   }
   
-  //----------------------------------------------------------------------------
-  //----------------------------------------------------------------------------
+  //**
   func createPath(atPoint pos: CGPoint) {
     mLevel.mPath?.removeFromParent()
     mLevel.createPath(atPoint: pos)
     addObject(mLevel.mPath)
   }
   
-  //----------------------------------------------------------------------------
-  //----------------------------------------------------------------------------
+  //**
   func throwSparks(with numSparks: Int) {
     let radius = CGFloat(1)
     var sparks: [SKShapeNode] = []
