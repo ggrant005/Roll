@@ -40,19 +40,19 @@ class LevelSet3 {
       
       mBallOptions = BallOptions()
       mBallOptions.mIsDynamic = false
-      mBallOptions.mStartPosition = CGPoint(x: -200, y: 200)
+      mBallOptions.mStartPosition = CGPoint(x: -200, y: 300)
       
       for i in 0 ..< 5 {
         for j in 0 ..< 5 {
           var options = BlockOptions()
-          options.mStartPosition = CGPoint(x: j * 50 - 250, y: i * 50 - 250)
+          options.mStartPosition = CGPoint(x: j * 150 - 250, y: i * 150 - 250)
           options.mMovement = .mSpin(0.5)
           mBlockOptions.append(options)
         }
       }
       
       mGoalOptions = GoalOptions()
-      mGoalOptions.mStartPosition = CGPoint(x: 100, y: -350)
+      mGoalOptions.mStartPosition = CGPoint(x: 100, y: -250)
     }
   }
 }
