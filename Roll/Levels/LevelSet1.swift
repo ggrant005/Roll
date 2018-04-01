@@ -36,6 +36,25 @@ class LevelSet1 {
       super.init()
       
       mBallOptions = BallOptions()
+      mBallOptions.mIsDynamic = false
+      mBallOptions.mStartPosition = CGPoint(x: -200, y: 300)
+      
+      var options = BlockOptions()
+      options.mStartPosition = CGPoint(x: 0, y: 0)
+      options.mMovement = .mTranslate(0, 700, 5)
+      mBlockOptions.append(options)
+      
+      mGoalOptions = GoalOptions()
+      mGoalOptions.mStartPosition = CGPoint(x: 100, y: -350)
+    }
+  }
+  
+  //**
+  class Level3: Level {
+    override init() {
+      super.init()
+      
+      mBallOptions = BallOptions()
       mBallOptions.mIsDynamic = true
       mBallOptions.mStartPosition = CGPoint(x: 0, y: 50)
       
@@ -46,6 +65,44 @@ class LevelSet1 {
       
       mGoalOptions = GoalOptions()
       mGoalOptions.mStartPosition = CGPoint(x: 0, y: -350)
+    }
+  }
+  
+  //**
+  class Level4: Level {
+    override init() {
+      super.init()
+      
+      mBallOptions = BallOptions()
+      mBallOptions.mIsDynamic = false
+      mBallOptions.mStartPosition = CGPoint(x: -200, y: 300)
+      
+      var options = BlockOptions()
+      options.mStartPosition = CGPoint(x: 50, y: -300)
+      options.mMovement = .mRotate(.pi, 0.2)
+      mBlockOptions.append(options)
+      
+      mGoalOptions = GoalOptions()
+      mGoalOptions.mStartPosition = CGPoint(x: 100, y: -350)
+    }
+  }
+  
+  //**
+  class Level5: Level {
+    override init() {
+      super.init()
+      
+      mBallOptions = BallOptions()
+      mBallOptions.mIsDynamic = false
+      mBallOptions.mStartPosition = CGPoint(x: -200, y: 300)
+      
+      var options = BlockOptions()
+      options.mStartPosition = CGPoint(x: 50, y: -300)
+      options.mMovement = .mSpin(0.5)
+      mBlockOptions.append(options)
+      
+      mGoalOptions = GoalOptions()
+      mGoalOptions.mStartPosition = CGPoint(x: 100, y: -350)
     }
   }
 }

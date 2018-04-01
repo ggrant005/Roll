@@ -157,8 +157,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
   
   //**
   func nextLevel() {
-    // next set
-    if mLevelNum.1 % 2 == 0 {
+    if mLevelNum.1 % 5 == 0 {
       mLevelNum.0 += 1 // increment set
       mLevelNum.1 = 1 // level 1
     }

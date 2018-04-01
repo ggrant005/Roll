@@ -17,6 +17,12 @@ func getLevel(_ num: (Int, Int)) -> Level {
       return LevelSet1.Level1()
     case 2:
       return LevelSet1.Level2()
+    case 3:
+      return LevelSet1.Level3()
+    case 4:
+      return LevelSet1.Level4()
+    case 5:
+      return LevelSet1.Level5()
     default:
       return LevelSet1.Level1()
     }
@@ -26,17 +32,14 @@ func getLevel(_ num: (Int, Int)) -> Level {
       return LevelSet2.Level1()
     case 2:
       return LevelSet2.Level2()
+    case 3:
+      return LevelSet2.Level2()
+    case 4:
+      return LevelSet2.Level2()
+    case 5:
+      return LevelSet2.Level2()
     default:
       return LevelSet2.Level1()
-    }
-  case 3:
-    switch num.1 {
-    case 1:
-      return LevelSet3.Level1()
-    case 2:
-      return LevelSet3.Level2()
-    default:
-      return LevelSet3.Level1()
     }
   default:
     return LevelSet1.Level1()
