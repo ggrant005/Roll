@@ -27,10 +27,10 @@ class BlockMovement {
       byAngle: -angle,
       duration: duration)
     
-    let moveLoop = SKAction.sequence([firstMove, secondMove, firstMove])
-    let moveForever = SKAction.repeatForever(moveLoop)
+    let move = SKAction.sequence([firstMove, secondMove, firstMove])
+    let loop = SKAction.repeatForever(move)
     
-    shapeNode.run(moveForever)
+    shapeNode.run(loop)
   }
   
   //**
@@ -66,10 +66,10 @@ class BlockMovement {
       y: -yTrans,
       duration: duration)
     
-    let moveLoop = SKAction.sequence([firstMove, secondMove, firstMove])
-    let moveForever = SKAction.repeatForever(moveLoop)
+    let move = SKAction.sequence([firstMove, secondMove, firstMove])
+    let loop = SKAction.repeatForever(move)
     
-    shapeNode.run(moveForever)
+    shapeNode.run(loop)
   }
   
   //**
@@ -84,8 +84,29 @@ class BlockMovement {
       byAngle: angle,
       duration: duration)
     
-    let spinForever = SKAction.repeatForever(spin)
+    let loop = SKAction.repeatForever(spin)
     
-    shapeNode.run(spinForever)
+    shapeNode.run(loop)
+  }
+  
+  //**
+  static func turn(
+    shapeNode: SKShapeNode,
+    direction: Direction,
+    byAngle: CGFloat,
+    duration: TimeInterval) {
+    
+    let angle = (direction == .eRight) ? -byAngle : byAngle
+    
+    let spin = SKAction.rotate(
+      byAngle: angle,
+      duration: 0.25)
+    
+    let wait = SKAction.wait(forDuration: duration)
+    
+    let move = SKAction.sequence([spin, wait])
+    let loop = SKAction.repeatForever(move)
+    
+    shapeNode.run(loop)
   }
 }

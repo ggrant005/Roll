@@ -21,4 +21,5 @@ enum Movement {
   case eSeesaw(Direction, CGFloat, TimeInterval)
   case eSlide(Direction, CGFloat, TimeInterval)
   case eSpin(Direction, TimeInterval)
+  case eTurn(Direction, CGFloat, TimeInterval)
 }

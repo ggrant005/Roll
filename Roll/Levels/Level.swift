@@ -67,6 +67,12 @@ class Level {
           shapeNode: block,
           direction: direction,
           duration: duration)
+      case .eTurn(let direction, let angle, let duration):
+        BlockMovement.turn(
+          shapeNode: block,
+          direction: direction,
+          byAngle: angle,
+          duration: duration)
       }
       
       mBlocks.append(block)

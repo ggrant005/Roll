@@ -55,4 +55,36 @@ class LevelSet2 {
       mGoalOptions.mStartPosition = CGPoint(x: 100, y: -250)
     }
   }
+  
+  //**
+  class Level3: Level {
+    override init() {
+      super.init()
+      
+      mBallOptions = BallOptions()
+      mBallOptions.mIsDynamic = false
+      mBallOptions.mStartPosition = CGPoint(x: 50, y: 1000)
+      
+      let dist = 100
+      let movement = Direction.eLeft
+      let duration = 1.0
+      let angle = π / 2
+      var options = BlockOptions()
+      options.mStartPosition = CGPoint(x: 0, y: dist)
+      options.mMovement = .eTurn(movement, angle, duration)
+      mBlockOptions.append(options)
+      options.mStartPosition = CGPoint(x: dist, y: 0)
+      options.mMovement = .eTurn(movement, angle, duration)
+      mBlockOptions.append(options)
+      options.mStartPosition = CGPoint(x: 0, y: -dist)
+      options.mMovement = .eTurn(movement, angle, duration)
+      mBlockOptions.append(options)
+      options.mStartPosition = CGPoint(x: -dist, y: 0)
+      options.mMovement = .eTurn(movement, angle, duration)
+      mBlockOptions.append(options)
+      
+      mGoalOptions = GoalOptions()
+      mGoalOptions.mStartPosition = CGPoint(x: 0, y: 0)
+    }
+  }
 }
