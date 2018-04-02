@@ -40,13 +40,13 @@ class LevelSet2 {
       
       mBallOptions = BallOptions()
       mBallOptions.mIsDynamic = false
-      mBallOptions.mStartPosition = CGPoint(x: -200, y: 300)
+      mBallOptions.mStartPosition = CGPoint(x: -200, y: 375)
       
-      for i in 0 ..< 5 {
-        for j in 0 ..< 5 {
+      for i in -3...3 {
+        for j in [-3, -1, 1, 3] {
           var options = BlockOptions()
-          options.mStartPosition = CGPoint(x: j * 150 - 250, y: i * 150 - 250)
-          options.mMovement = .eSpin((i + j % 2 == 0) ? .eLeft : .eRight, 0.5)
+          options.mStartPosition = CGPoint(x: j * 75, y: i * 150)
+          options.mMovement = .eSpin(((i + j) % 2 == 0) ? .eLeft : .eRight, 0.75)
           mBlockOptions.append(options)
         }
       }
