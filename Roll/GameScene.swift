@@ -17,7 +17,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
   
   let mTapRec3 = UITapGestureRecognizer()
   
-  var mGameState = GameState.mNew
+  var mGameState = GameState.eNew
   
   var mLevel = Level()
   var mLevelLabel: SKLabelNode!
@@ -49,8 +49,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
   
   //**
   func touchDown(atPoint pos: CGPoint) {
-    if mGameState != .mGoal {
-      mGameState = .mPlaying
+    if mGameState != .eGoal {
+      mGameState = .ePlaying
       mLevel.mPathPoints = []
       createPath(atPoint: pos)
     }
@@ -58,7 +58,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
   
   //**
   func touchMoved(toPoint pos: CGPoint) {
-    if mGameState != .mGoal {
+    if mGameState != .eGoal {
       createPath(atPoint: pos)
     }
   }
@@ -68,7 +68,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     if mTripleTapped {
       mTripleTapped = false
     }
-    else if mGameState != .mGoal {
+    else if mGameState != .eGoal {
       createPath(atPoint: pos)
       mLevel.mBall?.physicsBody?.isDynamic = true // release ball
     }
@@ -99,7 +99,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     // Called before each frame is rendered
     
     // auto reset when ball drops offscreen
-    if mGameState == .mPlaying {
+    if mGameState == .ePlaying {
       if
         mLevel.mBall.position.x > 0.6 * size.width ||
         mLevel.mBall.position.x < -0.6 * size.width ||
@@ -111,7 +111,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
   
   //**
   func didBegin(_ contact: SKPhysicsContact) {
-    if mGameState == .mPlaying {
+    if mGameState == .ePlaying {
       if contact.bodyA.node == mLevel.mGoal || contact.bodyB.node == mLevel.mGoal {
         hitGoal()
       }
@@ -120,7 +120,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
   
   //**
   @objc func tripleTapped(_ sender:UITapGestureRecognizer) {
-    if mGameState != .mGoal {
+    if mGameState != .eGoal {
       mTripleTapped = true
       resetLevel(to: (1, 1))
     }
@@ -170,7 +170,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
   
   //**
   func setLevel(to levelNum: (Int, Int)) {
-    mGameState = .mNew
+    mGameState = .eNew
     mLevelNum = levelNum // set label
     mLevel = getLevel(levelNum)
     createObjects()
@@ -184,7 +184,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
   
   //**
   func hitGoal() {
-    mGameState = .mGoal
+    mGameState = .eGoal
     mLevel.mGoal.removeFromParent()
     mLevel.mPath.removeFromParent()
     

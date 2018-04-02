@@ -10,5 +10,5 @@ import SpriteKit
 
 struct BlockOptions {
   var mStartPosition = CGPoint(x: 0, y: 0)
-  var mMovement = Movement.mTranslate(0, 0, 0)
+  var mMovement = Movement.eSlide(.eLeft, 0, 0)
 }

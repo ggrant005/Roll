@@ -7,7 +7,7 @@
 //
 
 enum GameState {
-  case mNew
-  case mPlaying
-  case mGoal
+  case eNew
+  case ePlaying
+  case eGoal
 }

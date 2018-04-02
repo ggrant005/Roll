@@ -22,10 +22,10 @@ class LevelSet2 {
       
       var options = BlockOptions()
       options.mStartPosition = CGPoint(x: 50, y: -200)
-      options.mMovement = .mRotate(-.pi, 0.3)
+      options.mMovement = .eSeesaw(.eLeft, π, 0.3)
       mBlockOptions.append(options)
       options.mStartPosition = CGPoint(x: -50, y: -200)
-      options.mMovement = .mSpin(0.25)
+      options.mMovement = .eSpin(.eRight, 0.25)
       mBlockOptions.append(options)
       
       mGoalOptions = GoalOptions()
@@ -46,7 +46,7 @@ class LevelSet2 {
         for j in 0 ..< 5 {
           var options = BlockOptions()
           options.mStartPosition = CGPoint(x: j * 150 - 250, y: i * 150 - 250)
-          options.mMovement = .mSpin(0.5)
+          options.mMovement = .eSpin((i + j % 2 == 0) ? .eLeft : .eRight, 0.5)
           mBlockOptions.append(options)
         }
       }

@@ -50,20 +50,22 @@ class Level {
       block.physicsBody?.contactTestBitMask = 0b0001
       
       switch options.mMovement {
-      case .mRotate(let angle, let duration):
-        BlockMovement.loopRotate(
+      case .eSeesaw(let direction, let angle, let duration):
+        BlockMovement.seesaw(
           shapeNode: block,
+          direction: direction,
           byAngle: angle,
           duration: duration)
-      case .mSpin(let duration):
-        BlockMovement.loopSpin(
+      case .eSlide(let direction, let distance, let duration):
+        BlockMovement.slide(
           shapeNode: block,
+          direction: direction,
+          distance: distance,
           duration: duration)
-      case .mTranslate(let xTrans, let yTrans, let duration):
-        BlockMovement.loopTranslate(
+      case .eSpin(let direction, let duration):
+        BlockMovement.spin(
           shapeNode: block,
-          xTranslation: xTrans,
-          yTranslation: yTrans,
+          direction: direction,
           duration: duration)
       }
       

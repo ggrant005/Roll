@@ -1,5 +1,5 @@
 //
-//  MovementType.swift
+//  Movement.swift
 //  Roll
 //
 //  Created by Greg Grant on 3/11/18.
@@ -8,8 +8,17 @@
 
 import SpriteKit
 
+let π = CGFloat.pi
+
+enum Direction {
+  case eUp
+  case eDown
+  case eLeft
+  case eRight
+}
+
 enum Movement {
-  case mTranslate(CGFloat, CGFloat, TimeInterval)
-  case mRotate(CGFloat, TimeInterval)
-  case mSpin(TimeInterval)
+  case eSeesaw(Direction, CGFloat, TimeInterval)
+  case eSlide(Direction, CGFloat, TimeInterval)
+  case eSpin(Direction, TimeInterval)
 }

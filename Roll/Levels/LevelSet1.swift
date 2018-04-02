@@ -22,7 +22,7 @@ class LevelSet1 {
       
       var options = BlockOptions()
       options.mStartPosition = CGPoint(x: 0, y: 0)
-      options.mMovement = .mTranslate(0, 700, 5)
+      options.mMovement = .eSlide(.eUp, 700, 5)
       mBlockOptions.append(options)
       
       mGoalOptions = GoalOptions()
@@ -41,7 +41,7 @@ class LevelSet1 {
       
       var options = BlockOptions()
       options.mStartPosition = CGPoint(x: 0, y: 0)
-      options.mMovement = .mTranslate(0, 700, 5)
+      options.mMovement = .eSlide(.eUp, 700, 5)
       mBlockOptions.append(options)
       
       mGoalOptions = GoalOptions()
@@ -60,7 +60,7 @@ class LevelSet1 {
       
       var options = BlockOptions()
       options.mStartPosition = CGPoint(x: 0, y: 0)
-      options.mMovement = .mTranslate(0, 700, 5)
+      options.mMovement = .eSlide(.eUp, 700, 5)
       mBlockOptions.append(options)
       
       mGoalOptions = GoalOptions()
@@ -79,7 +79,7 @@ class LevelSet1 {
       
       var options = BlockOptions()
       options.mStartPosition = CGPoint(x: 50, y: -300)
-      options.mMovement = .mRotate(.pi, 0.2)
+      options.mMovement = .eSeesaw(.eLeft, π, 0.2)
       mBlockOptions.append(options)
       
       mGoalOptions = GoalOptions()
@@ -98,7 +98,7 @@ class LevelSet1 {
       
       var options = BlockOptions()
       options.mStartPosition = CGPoint(x: 50, y: -300)
-      options.mMovement = .mSpin(0.5)
+      options.mMovement = .eSpin(.eRight, 0.5)
       mBlockOptions.append(options)
       
       mGoalOptions = GoalOptions()

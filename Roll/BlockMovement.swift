@@ -11,40 +11,20 @@ import SpriteKit
 class BlockMovement {
   
   //**
-  static func loopTranslate(
+  static func seesaw(
     shapeNode: SKShapeNode,
-    xTranslation: CGFloat,
-    yTranslation: CGFloat,
-    duration: TimeInterval) {
-    
-    let firstMove = SKAction.moveBy(
-      x: -xTranslation / 2,
-      y: -yTranslation / 2,
-      duration: duration / 2)
-    
-    let secondMove = SKAction.moveBy(
-      x: xTranslation,
-      y: yTranslation,
-      duration: duration)
-    
-    let moveLoop = SKAction.sequence([firstMove, secondMove, firstMove])
-    let moveForever = SKAction.repeatForever(moveLoop)
-    
-    shapeNode.run(moveForever)
-  }
-  
-  //**
-  static func loopRotate(
-    shapeNode: SKShapeNode,
+    direction: Direction,
     byAngle: CGFloat,
     duration: TimeInterval) {
     
+    let angle = (direction == .eRight) ? -byAngle : byAngle
+    
     let firstMove = SKAction.rotate(
-      byAngle: -byAngle / 2,
+      byAngle: angle / 2,
       duration: duration / 2)
     
     let secondMove = SKAction.rotate(
-      byAngle: byAngle,
+      byAngle: -angle,
       duration: duration)
     
     let moveLoop = SKAction.sequence([firstMove, secondMove, firstMove])
@@ -54,12 +34,54 @@ class BlockMovement {
   }
   
   //**
-  static func loopSpin(
+  static func slide(
     shapeNode: SKShapeNode,
+    direction: Direction,
+    distance: CGFloat,
     duration: TimeInterval) {
     
+    var xTrans, yTrans : CGFloat
+    switch direction {
+    case .eUp:
+      xTrans = 0
+      yTrans = distance
+    case .eDown:
+      xTrans = 0
+      yTrans = -distance
+    case .eLeft:
+      xTrans = -distance
+      yTrans = 0
+    case .eRight:
+      xTrans = distance
+      yTrans = 0
+    }
+    
+    let firstMove = SKAction.moveBy(
+      x: xTrans / 2,
+      y: yTrans / 2,
+      duration: duration / 2)
+    
+    let secondMove = SKAction.moveBy(
+      x: -xTrans,
+      y: -yTrans,
+      duration: duration)
+    
+    let moveLoop = SKAction.sequence([firstMove, secondMove, firstMove])
+    let moveForever = SKAction.repeatForever(moveLoop)
+    
+    shapeNode.run(moveForever)
+  }
+  
+  //**
+  static func spin(
+    shapeNode: SKShapeNode,
+    direction: Direction,
+    duration: TimeInterval) {
+    
+    let angle = (direction == .eRight) ? (-2.0 * π) : (2.0 * π)
+    
     let spin = SKAction.rotate(
-      byAngle: 2 * .pi,
+      byAngle: angle,
       duration: duration)
     
     let spinForever = SKAction.repeatForever(spin)
