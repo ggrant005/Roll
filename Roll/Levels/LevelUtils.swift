@@ -28,18 +28,8 @@ func getLevel(_ num: (Int, Int)) -> Level {
     }
   case 2:
     switch num.1 {
-    case 1:
-      return LevelSet2.Level1()
-    case 2:
-      return LevelSet2.Level2()
-    case 3:
-      return LevelSet2.Level3()
-    case 4:
-      return LevelSet2.Level2()
-    case 5:
-      return LevelSet2.Level2()
     default:
-      return LevelSet2.Level1()
+      return LevelSet1.Level1()
     }
   default:
     return LevelSet1.Level1()
