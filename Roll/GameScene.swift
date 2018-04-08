@@ -11,7 +11,7 @@ import GameplayKit
 
 class GameScene: SKScene, SKPhysicsContactDelegate {
   
-  var mDeleteTheseObjects: [SKShapeNode] = []
+  var mObjects: [SKShapeNode] = []
   
   var mTripleTapped = false
   
@@ -144,13 +144,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
   //**
   func createObjects() {
     createBall(with: size)
-    createBlock(with: size)
+    createBlocks(with: size)
     createGoal(with: size)
   }
   
   //**
   func destroyObjects() {
-    for object in mDeleteTheseObjects {
+    for object in mObjects {
       object.removeFromParent()
     }
   }
@@ -188,7 +188,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     mLevel.mGoal.removeFromParent()
     mLevel.mPath.removeFromParent()
     
-    throwSparks(with: 75)
+    throwSparks(with: 100)
     
     // next level
     DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(2), execute: {
@@ -198,7 +198,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
   
   //**
   func addObject(_ shapeNode: SKShapeNode) {
-    mDeleteTheseObjects.append(shapeNode)
+    mObjects.append(shapeNode)
     addChild(shapeNode)
   }
   
@@ -209,8 +209,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
   }
   
   //**
-  func createBlock(with size: CGSize) {
-    mLevel.createBlock(with: size)
+  func createBlocks(with size: CGSize) {
+    mLevel.createBlocks(with: size)
     for block in mLevel.mBlocks { addObject(block) }
   }
   
@@ -230,20 +230,18 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
   //**
   func throwSparks(with numSparks: Int) {
     let radius = CGFloat(1)
-    var sparks: [SKShapeNode] = []
-    for i in 0 ..< numSparks {
-      sparks.append(SKShapeNode(circleOfRadius: radius))
-      sparks[i].name = "spark"
-      sparks[i].lineWidth = 2.5
-      sparks[i].position = mLevel.mGoal.position
-      sparks[i].physicsBody = SKPhysicsBody(circleOfRadius: radius)
-      
-      addObject(sparks[i])
+    for _ in 0 ..< numSparks {
+      let spark = SKShapeNode(circleOfRadius: radius)
+      spark.name = "spark"
+      spark.lineWidth = 2.5
+      spark.position = mLevel.mGoal.position
+      spark.physicsBody = SKPhysicsBody(circleOfRadius: radius)
+      addChild(spark)
       
       let impulse = CGVector(
         dx: 0.05 * (2.0 * drand48() - 1.0),
         dy: 0.05 * (2.0 * drand48() - 1.0))
-      sparks[i].physicsBody?.applyImpulse(impulse)
+      spark.physicsBody?.applyImpulse(impulse)
     }
   }
 }

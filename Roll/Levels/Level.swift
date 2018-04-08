@@ -36,7 +36,7 @@ class Level {
   }
   
   //**
-  func createBlock(with size: CGSize) {
+  func createBlocks(with size: CGSize) {
     let w = (size.width + size.height) * 0.01
     let blockSize = CGSize(width: 2 * w, height: 4 * w)
     
