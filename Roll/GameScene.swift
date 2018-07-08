@@ -236,7 +236,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
       spark.lineWidth = 2.5
       spark.position = mLevel.mGoal.position
       spark.physicsBody = SKPhysicsBody(circleOfRadius: radius)
-      addChild(spark)
+      addObject(spark)
       
       let impulse = CGVector(
         dx: 0.05 * (2.0 * drand48() - 1.0),
